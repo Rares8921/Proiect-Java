@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        const jwt = localStorage.getItem("jwt");
+        if (jwt) window.location.href = "/test";
+    </script>
+</head>
+<body>
+<div class="background-card">
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <p id="message"></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/auth/login_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ email, password })
+            });
+
+            const result = await response.json();
+            document.getElementById('message').textContent = result.message;
+
+            if (result?.token) {
+                localStorage.setItem('jwt', result.token);
+                window.location.href = '/';
+            }
+
+        } catch (error) {
+            document.getElementById('message').textContent = 'Login failed: ' + error;
+        }
+    });
+</script>
+</body>
+</html>

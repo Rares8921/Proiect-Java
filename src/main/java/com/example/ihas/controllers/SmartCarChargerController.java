@@ -1,0 +1,90 @@
+package com.example.ihas.controllers;
+
+import com.example.ihas.devices.SmartCarCharger;
+import com.example.ihas.services.SmartCarChargerService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/carchargers")
+public class SmartCarChargerController {
+
+    private final SmartCarChargerService chargerService;
+
+    public SmartCarChargerController(SmartCarChargerService service) {
+        chargerService = service;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Map<String, Object>>> getAllCarChargers(Authentication auth) {
+        String userId = auth.getName();
+        List<SmartCarCharger> list = chargerService.getAll(userId);
+        List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    private Map<String, Object> mapping(SmartCarCharger charger) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("id", charger.getId());
+        m.put("name", charger.getName());
+        m.put("isCharging", charger.isCharging());
+        m.put("current", charger.getCurrent());
+        m.put("voltage", charger.getVoltage());
+        return m;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getCarCharger(@PathVariable String id, Authentication auth) {
+        try {
+            String userId = auth.getName();
+            SmartCarCharger charger = chargerService.get(id, userId);
+            Map<String, Object> result = mapping(charger);
+            result.put("eventLog", charger.getEventLog());
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<String> addCarCharger(@RequestBody Map<String, Object> body, Authentication auth) {
+        try {
+            String userId = auth.getName();
+            String id = body.get("id").toString();
+            String name = body.get("name").toString();
+            SmartCarCharger charger = new SmartCarCharger(id, name);
+            chargerService.add(charger, userId);
+            return ResponseEntity.ok("SmartCarCharger added");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCarCharger(@PathVariable String id, Authentication auth) {
+        try {
+            String userId = auth.getName();
+            chargerService.delete(id, userId);
+            return ResponseEntity.ok("SmartCarCharger deleted");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/toggle")
+    public ResponseEntity<String> toggleCarCharger(@PathVariable String id, Authentication auth) {
+        try {
+            String userId = auth.getName();
+            chargerService.toggleCharging(id, userId);
+            return ResponseEntity.ok("SmartCarCharger toggled");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error toggling SmartCarCharger: " + e.getMessage());
+        }
+    }
+}

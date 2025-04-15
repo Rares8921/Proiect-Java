@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        const jwt = localStorage.getItem("jwt");
+        if (jwt) window.location.href = "/test";
+    </script>
+</head>
+<body>
+<div class="background-card">
+    <div class="login-container">
+        <h2>Register Account</h2>
+        <form id="registerForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" required>
+
+            <button type="submit">Register</button>
+        </form>
+        <p id="message"></p>
+    </div>
+</div>
+<script>
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const message = document.getElementById('message');
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match!";
+            return;
+        }
+
+        try {
+            const response = await fetch('/auth/register_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ email, password })
+            });
+            const text = await response.text();
+            message.textContent = text;
+
+            if (text.toLowerCase().includes('success')) {
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1000);
+            }
+        } catch (error) {
+            message.textContent = 'Registration failed: ' + error;
+        }
+    });
+</script>
+</body>
+</html>

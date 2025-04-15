@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>SmartSprinkler Management</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/css/sprinkler_management.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<h2>SmartSprinkler Management</h2>
+<div id="message"></div>
+<div class="add-form">
+<h3>Add SmartSprinkler</h3>
+<input id="newId" placeholder="ID (use token value)" required="" type="text"/>
+<input id="newName" placeholder="Name" required="" type="text"/>
+<input id="newDuration" placeholder="Watering Duration" required="" type="number"/>
+<button id="addBtn">Add</button>
+</div>
+<h3>Existing SmartSprinklers</h3>
+<table id="sprinklerTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Power</th>
+<th>Watering Duration (min)</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<!-- JS -->
+</tbody>
+</table>
+<button id="refreshBtn">Refresh List</button>
+<button id="backBtn">Back to dashboard</button>
+</div>
+
+<script src="/script/main.js"></script>
+<script src="/script/sprinkler_management.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

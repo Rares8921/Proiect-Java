@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Refrigerator Control</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/css/refrigerator_control.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<h2>Refrigerator Control</h2>
+<div class="status">
+<div>ID: <span id="refId"></span></div>
+<div>Name: <span id="refName"></span></div>
+<div>Temperature: <span id="currentTemp"></span>°C</div>
+<div>Door: <span id="doorStatus"></span></div>
+<div>Inventory: <span id="inventory"></span></div>
+</div>
+<div>
+<label for="tempInput">Set Temperature (°C):</label>
+<input id="tempInput" max="10" min="-5" step="0.5" type="number"/>
+<button onclick="updateTemperature()">Update Temperature</button>
+</div>
+<div>
+<button onclick="toggleDoor()">Toggle Door</button>
+</div>
+<div>
+<h3>Manage Inventory</h3>
+<label for="itemName">Item Name:</label>
+<input id="itemName" type="text"/>
+<label for="expiryDate">Expiry Date (YYYY-MM-DD):</label>
+<input id="expiryDate" type="text"/>
+<button onclick="addItem()">Add Item</button>
+<button onclick="removeItem()">Remove Item</button>
+</div>
+<div>
+<button onclick="checkExpired()">Check Expired Items</button>
+</div>
+<div id="message"></div>
+<br/>
+<button onclick="goBack()">Back to Management</button>
+</div>
+
+<script src="/script/main.js"></script>
+<script src="/script/refrigerator_control.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

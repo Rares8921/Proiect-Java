@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>SmartCurtains Management</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/css/curtains_management.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<h2>SmartCurtains Management</h2>
+<div id="message"></div>
+<div class="add-form">
+<h3>Add SmartCurtains</h3>
+<input id="newId" placeholder="ID (use token value)" required="" type="text"/>
+<input id="newName" placeholder="Name" required="" type="text"/>
+<input id="newPosition" placeholder="Position (0-100)" required="" type="number"/>
+<button id="addBtn">Add</button>
+</div>
+<h3>Existing SmartCurtains</h3>
+<table id="curtainsTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Position</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<!-- Row generation -->
+</tbody>
+</table>
+<button id="refreshBtn">Refresh List</button>
+<button id="backBtn">Back to dashboard</button>
+</div>
+
+<script src="/script/main.js"></script>
+<script src="/script/curtains_management.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

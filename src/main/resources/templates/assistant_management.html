@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Smart Assistant Management</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/css/assistant_management.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<h2>Smart Assistant Management</h2>
+<div id="message"></div>
+<div class="add-form">
+<h3>Add Smart Assistant</h3>
+<input id="newId" placeholder="ID (token value)" required="" type="text"/>
+<input id="newName" placeholder="Name" required="" type="text"/>
+<input id="newHubId" placeholder="Hub ID" required="" type="text"/>
+<button id="addBtn">Add</button>
+</div>
+<h3>Existing Smart Assistants</h3>
+<table id="assistantTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Hub ID</th>
+<th>Event Log Size</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<button id="refreshBtn">Refresh List</button>
+<button id="backBtn">Back to dashboard</button>
+</div>
+
+<script src="/script/main.js"></script>
+<script src="/script/assistant_management.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

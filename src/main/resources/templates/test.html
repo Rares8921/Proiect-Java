@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<h2>Welcome to protected page!</h2>
+<div id="status">Checking access...</div>
+
+<button id="logoutBtn">Logout</button>
+
+<script>
+    const token = localStorage.getItem("jwt");
+
+    console.log(token);
+
+    if (!token) {
+        window.location.href = "/login";
+    } else {
+        fetch('/api/test', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+            .then(res => {
+                if (res.ok) return res.text();
+                throw new Error("Access denied");
+            })
+            .then(data => {
+                document.getElementById("status").innerText = data;
+            })
+            .catch(err => {
+                console.error(err);
+                localStorage.removeItem("jwt");
+                window.location.href = "/login";
+            });
+    }
+
+    // Logout handler
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("jwt");
+        window.location.href = "/login";
+    });
+</script>
+
+<script src="/script/main.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

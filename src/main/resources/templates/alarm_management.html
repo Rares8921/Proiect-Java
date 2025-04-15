@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Smart Alarm System Management</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/css/alarm_management.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<h2>Smart Alarm System Management</h2>
+<div id="message"></div>
+<div class="add-form">
+<h3>Add Alarm System</h3>
+<input id="newId" placeholder="ID (use token value)" required="" type="text"/>
+<input id="newName" placeholder="Name" required="" type="text"/>
+<button id="addBtn">Add</button>
+</div>
+<h3>Existing Alarm Systems</h3>
+<table id="alarmTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Armed</th>
+<th>Alarm Triggered</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<!-- JS -->
+</tbody>
+</table>
+<button id="refreshBtn">Refresh List</button>
+<button id="backBtn">Back to dashboard</button>
+</div>
+
+<script src="/script/main.js"></script>
+<script src="/script/alarm_management.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

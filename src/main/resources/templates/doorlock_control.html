@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Smart Door Lock Control</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" th:href="@{/css/doorlock_control.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<h2>Smart Door Lock Control</h2>
+<div class="status">
+<div>ID: <span id="lockId"></span></div>
+<div>Name: <span id="lockName"></span></div>
+<div>Locked: <span id="lockStatus"></span></div>
+</div>
+<div style="text-align: center;">
+<button onclick="toggleLock()">Toggle Lock</button>
+</div>
+<div id="message"></div>
+<br/>
+<button onclick="goBack()">Back to Management</button>
+</div>
+
+<script src="/script/main.js"></script>
+<script src="/script/doorlock_control.js"></script>
+<div th:replace="~{fragments :: footerFrag}"></div>
+</body>
+</html>

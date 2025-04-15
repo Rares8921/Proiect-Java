@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Smart Home Dashboard</title>
+
+<link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: headerFrag}"></div>
+<div class="container">
+<div class="card">
+<h3>Thermostat</h3>
+<a href="/thermostat_management">Manage</a>
+</div>
+<div class="card">
+<h3>Smart Plugs</h3>
+<a href="/smartplug_management">Manage</a>
+</div>
+<div class="card">
+<h3>Refrigerators</h3>
+<a href="/refrigerator_management">Manage</a>
+</div>
+<div class="card">
+<h3>Sensors</h3>
+<a href="/sensor_management">Manage</a>
+</div>
+<div class="card">
+<h3>Sprinklers</h3>
+<a href="/sprinkler_management">Manage</a>
+</div>
+<div class="card">
+<h3>Smart Lights</h3>
+<a href="/light_management">Manage</a>
+</div>
+<div class="card">
+<h3>Smart Ovens</h3>
+<a href="/oven_management">Manage</a>
+</div>
+<div class="card">
+<h3>Alarm Systems</h3>
+<a href="/alarm_management">Manage</a>
+</div>
+<div class="card">
+<h3>Cameras</h3>
+<a href="/camera_management">Manage</a>
+</div>
+<div class="card">
+<h3>Car Chargers</h3>
+<a href="/carcharger_management">Manage</a>
+</div>
+<div class="card">
+<h3>Curtains</h3>
+<a href="/curtains_management">Manage</a>
+</div>
+<div class="card">
+<h3>Door Locks</h3>
+<a href="/doorlock_management">Manage</a>
+</div>
+<div class="card">
+<h3>Smart Assistants</h3>
+<a href="/assistant_management">Manage</a>
+</div>
+<div class="card">
+<h3>Smart Hubs</h3>
+<a href="/hub_management">Manage</a>
+</div>
+</div>
+<div class="stats">
+<h2>Statistics</h2>
+<p>Total Devices: <span id="totalDevices">0</span></p>
+<p>Online Devices: <span id="onlineDevices">0</span></p>
+</div>
+<div th:replace="~{fragments :: footerFrag}"></div>
+
+<script src="/script/main.js"></script>
+<script src="/script/dashboard.js"></script>
+</body>
+</html>
