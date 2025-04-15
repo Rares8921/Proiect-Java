@@ -1,5 +1,5 @@
 # IoT Home Automation System
-# Proiectul a fost lucrat si testat pe Intellij IDEA 2024.3.5 versiunea premium, cu java 21 si spring boot cu maven!!**
+# Proiectul a fost lucrat si testat pe Intellij IDEA 2024.3.5 versiunea premium, cu java 21 si spring boot cu maven!!
 
 **IoT Home Automation System** este o aplicatie care simuleaza un sistem inteligent de automatizare a locuintei. Scopul aplicatiei este de a oferi functionalitati complete pentru controlul si monitorizarea dispozitivelor smart (precum termostate, lumini, senzori etc.).
 
