@@ -32,7 +32,7 @@
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!resp.ok) throw new Error("Failed to update temperature");
+      if (!resp.ok) throw new Error("Update temperature");
       document.getElementById("message").textContent = "Temperature updated";
       setTimeout(() => { document.getElementById("message").textContent = ""; }, 3000);
       loadOven();
@@ -48,7 +48,7 @@
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!resp.ok) throw new Error("Failed to update timer");
+      if (!resp.ok) throw new Error("Update timer");
       document.getElementById("message").textContent = "Timer updated";
       setTimeout(() => { document.getElementById("message").textContent = ""; }, 3000);
       loadOven();
@@ -64,7 +64,7 @@
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!resp.ok) throw new Error("Failed to update preheat");
+      if (!resp.ok) throw new Error("Update preheat");
       document.getElementById("message").textContent = "Preheat state updated";
       setTimeout(() => { document.getElementById("message").textContent = ""; }, 3000);
       loadOven();

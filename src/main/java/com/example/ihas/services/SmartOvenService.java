@@ -19,64 +19,64 @@ public class SmartOvenService {
         thingsBoardService = tbService;
     }
 
-    public SmartOven getOven(String id, String userId) {
-        return ovenDAO.findById(id, userId);
+    public SmartOven getOven(String id, String user_id) {
+        return ovenDAO.findById(id, user_id);
     }
 
-    public List<SmartOven> getAllOvens(String userId) {
-        return ovenDAO.findAll(userId);
+    public List<SmartOven> getAllOvens(String user_id) {
+        return ovenDAO.findAll(user_id);
     }
 
-    public void addOven(SmartOven oven, String userId) {
-        ovenDAO.save(oven, userId);
+    public void addOven(SmartOven oven, String user_id) {
+        ovenDAO.save(oven, user_id);
         updateTelemetry(oven);
     }
 
-    public void deleteOven(String id, String userId) {
-        ovenDAO.delete(id, userId);
+    public void deleteOven(String id, String user_id) {
+        ovenDAO.delete(id, user_id);
     }
 
-    public void updateOven(SmartOven oven, String userId) {
-        ovenDAO.update(oven, userId);
+    public void updateOven(SmartOven oven, String user_id) {
+        ovenDAO.update(oven, user_id);
         updateTelemetry(oven);
     }
 
-    public void toggleOven(String id, String userId) {
-        SmartOven oven = ovenDAO.findById(id, userId);
+    public void toggleOven(String id, String user_id) {
+        SmartOven oven = ovenDAO.findById(id, user_id);
         oven.togglePower();
-        ovenDAO.update(oven, userId);
+        ovenDAO.update(oven, user_id);
         updateTelemetry(oven);
     }
 
-    public void updateTemperature(String id, double temperature, String userId) {
-        SmartOven oven = ovenDAO.findById(id, userId);
+    public void updateTemperature(String id, double temperature, String user_id) {
+        SmartOven oven = ovenDAO.findById(id, user_id);
         oven.setTemperature(temperature);
-        ovenDAO.update(oven, userId);
+        ovenDAO.update(oven, user_id);
         updateTelemetry(oven);
     }
 
-    public void updateTimer(String id, int timer, String userId) {
-        SmartOven oven = ovenDAO.findById(id, userId);
+    public void updateTimer(String id, int timer, String user_id) {
+        SmartOven oven = ovenDAO.findById(id, user_id);
         oven.setTimer(timer);
-        ovenDAO.update(oven, userId);
+        ovenDAO.update(oven, user_id);
         updateTelemetry(oven);
     }
 
-    public void setPreheat(String id, boolean preheat, String userId) {
-        SmartOven oven = ovenDAO.findById(id, userId);
+    public void setPreheat(String id, boolean preheat, String user_id) {
+        SmartOven oven = ovenDAO.findById(id, user_id);
         if (preheat) {
             oven.preheat();
         } else {
             oven.cancelPreheat();
         }
-        ovenDAO.update(oven, userId);
+        ovenDAO.update(oven, user_id);
         updateTelemetry(oven);
     }
 
-    public void togglePower(String id, String userId) {
-        SmartOven oven = ovenDAO.findById(id, userId);
+    public void togglePower(String id, String user_id) {
+        SmartOven oven = ovenDAO.findById(id, user_id);
         oven.togglePower();
-        ovenDAO.update(oven, userId);
+        ovenDAO.update(oven, user_id);
     }
 
 

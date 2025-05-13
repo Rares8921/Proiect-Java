@@ -19,26 +19,26 @@ public class SmartCameraService {
         tbService = _tbService;
     }
 
-    public SmartCamera get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartCamera get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartCamera> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartCamera> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartCamera camera, String userId) {
-        dao.save(camera, userId);
+    public void add(SmartCamera camera, String user_id) {
+        dao.save(camera, user_id);
         updateTelemetry(camera);
     }
 
-    public void update(SmartCamera camera, String userId) {
-        dao.update(camera, userId);
+    public void update(SmartCamera camera, String user_id) {
+        dao.update(camera, user_id);
         updateTelemetry(camera);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
     public void toggleRecording(String id, String email) {

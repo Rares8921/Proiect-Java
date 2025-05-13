@@ -13,7 +13,7 @@ public class SmartDoorLockDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartDoorLock lock, String userId) {
+    public void save(SmartDoorLock lock, String user_id) {
         String sql = """
             INSERT INTO smart_door_lock (id, name, locked, user_id)
             VALUES (?, ?, ?, ?)
@@ -22,11 +22,11 @@ public class SmartDoorLockDAO {
                 lock.getId(),
                 lock.getName(),
                 lock.isLocked(),
-                userId
+                user_id
         );
     }
 
-    public SmartDoorLock findById(String id, String userId) {
+    public SmartDoorLock findById(String id, String user_id) {
         String sql = """
             SELECT id, name, locked
             FROM smart_door_lock
@@ -39,10 +39,10 @@ public class SmartDoorLockDAO {
             );
             if (rs.getBoolean("locked") != lock.isLocked()) lock.togglePower();
             return lock;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartDoorLock> findAll(String userId) {
+    public List<SmartDoorLock> findAll(String user_id) {
         String sql = """
             SELECT id, name, locked
             FROM smart_door_lock
@@ -55,10 +55,10 @@ public class SmartDoorLockDAO {
             );
             if (rs.getBoolean("locked") != lock.isLocked()) lock.togglePower();
             return lock;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartDoorLock lock, String userId) {
+    public void update(SmartDoorLock lock, String user_id) {
         String sql = """
             UPDATE smart_door_lock
             SET name = ?, locked = ?
@@ -68,12 +68,12 @@ public class SmartDoorLockDAO {
                 lock.getName(),
                 lock.isLocked(),
                 lock.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_door_lock WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

@@ -13,7 +13,7 @@ public class SmartHubDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartHub hub, String userId) {
+    public void save(SmartHub hub, String user_id) {
         String sql = """
             INSERT INTO smart_hub (id, name, user_id)
             VALUES (?, ?, ?)
@@ -21,11 +21,11 @@ public class SmartHubDAO {
         jdbcTemplate.update(sql,
                 hub.getId(),
                 hub.getName(),
-                userId
+                user_id
         );
     }
 
-    public SmartHub findById(String id, String userId) {
+    public SmartHub findById(String id, String user_id) {
         String sql = """
             SELECT id, name
             FROM smart_hub
@@ -35,10 +35,10 @@ public class SmartHubDAO {
                 new SmartHub(
                         rs.getString("id"),
                         rs.getString("name")
-                ), id, userId);
+                ), id, user_id);
     }
 
-    public List<SmartHub> findAll(String userId) {
+    public List<SmartHub> findAll(String user_id) {
         String sql = """
             SELECT id, name
             FROM smart_hub
@@ -48,10 +48,10 @@ public class SmartHubDAO {
                 new SmartHub(
                         rs.getString("id"),
                         rs.getString("name")
-                ), userId);
+                ), user_id);
     }
 
-    public void update(SmartHub hub, String userId) {
+    public void update(SmartHub hub, String user_id) {
         String sql = """
             UPDATE smart_hub
             SET name = ?
@@ -60,12 +60,12 @@ public class SmartHubDAO {
         jdbcTemplate.update(sql,
                 hub.getName(),
                 hub.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_hub WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

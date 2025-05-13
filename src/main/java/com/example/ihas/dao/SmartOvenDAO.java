@@ -13,7 +13,7 @@ public class SmartOvenDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartOven oven, String userId) {
+    public void save(SmartOven oven, String user_id) {
         String sql = """
             INSERT INTO smart_oven (id, name, is_on, temperature, timer, preheat, user_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -25,11 +25,11 @@ public class SmartOvenDAO {
                 oven.getTemperature(),
                 oven.getTimer(),
                 oven.isPreheat(),
-                userId
+                user_id
         );
     }
 
-    public SmartOven findById(String id, String userId) {
+    public SmartOven findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_on, temperature, timer, preheat
             FROM smart_oven
@@ -45,10 +45,10 @@ public class SmartOvenDAO {
             o.setTimer(rs.getInt("timer"));
             o.setPreheat(rs.getBoolean("preheat"));
             return o;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartOven> findAll(String userId) {
+    public List<SmartOven> findAll(String user_id) {
         String sql = """
             SELECT id, name, is_on, temperature, timer, preheat
             FROM smart_oven
@@ -64,10 +64,10 @@ public class SmartOvenDAO {
             o.setTimer(rs.getInt("timer"));
             o.setPreheat(rs.getBoolean("preheat"));
             return o;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartOven oven, String userId) {
+    public void update(SmartOven oven, String user_id) {
         String sql = """
             UPDATE smart_oven
             SET name = ?, is_on = ?, temperature = ?, timer = ?, preheat = ?
@@ -80,12 +80,12 @@ public class SmartOvenDAO {
                 oven.getTimer(),
                 oven.isPreheat(),
                 oven.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_oven WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

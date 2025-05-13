@@ -23,8 +23,8 @@ public class SmartPlugController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllSmartPlugs(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartPlug> list = plugService.getAllSmartPlugs(userId);
+        String user_id = auth.getName();
+        List<SmartPlug> list = plugService.getAllSmartPlugs(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
@@ -32,8 +32,8 @@ public class SmartPlugController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getSmartPlug(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartPlug plug = plugService.getSmartPlug(id, userId);
+            String user_id = auth.getName();
+            SmartPlug plug = plugService.getSmartPlug(id, user_id);
             return ResponseEntity.ok(mapping(plug));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -53,11 +53,11 @@ public class SmartPlugController {
     @PostMapping
     public ResponseEntity<String> addSmartPlug(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartPlug plug = new SmartPlug(id, name);
-            plugService.addSmartPlug(plug, userId);
+            plugService.addSmartPlug(plug, user_id);
             return ResponseEntity.ok("SmartPlug added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -67,8 +67,8 @@ public class SmartPlugController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSmartPlug(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            plugService.deleteSmartPlug(id, userId);
+            String user_id = auth.getName();
+            plugService.deleteSmartPlug(id, user_id);
             return ResponseEntity.ok("SmartPlug deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -78,8 +78,8 @@ public class SmartPlugController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleSmartPlug(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            plugService.toggleSmartPlug(id, userId);
+            String user_id = auth.getName();
+            plugService.toggleSmartPlug(id, user_id);
             return ResponseEntity.ok("SmartPlug toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartPlug: " + e.getMessage());

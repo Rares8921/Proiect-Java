@@ -15,7 +15,7 @@ public class EmailService {
     }
 
     public void sendVerificationEmail(String to, String token) {
-        String link = "http://localhost:8080/auth/verify?token=" + token;
+        String link = "http://localhost:8080/auth/verify_user?token=" + token;
         String subject = "Confirm your email";
         String content = "Click the following link to verify your email: <a href=\"" + link + "\">Verify</a>";
 

@@ -19,44 +19,44 @@ public class SmartLightService {
         tbService = _tbService;
     }
 
-    public SmartLight get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartLight get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartLight> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartLight> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartLight light, String userId) {
-        dao.save(light, userId);
+    public void add(SmartLight light, String user_id) {
+        dao.save(light, user_id);
         updateTelemetry(light);
     }
 
-    public void update(SmartLight light, String userId) {
-        dao.update(light, userId);
+    public void update(SmartLight light, String user_id) {
+        dao.update(light, user_id);
         updateTelemetry(light);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void togglePower(String id, String userId) {
-        SmartLight light = dao.findById(id, userId);
+    public void togglePower(String id, String user_id) {
+        SmartLight light = dao.findById(id, user_id);
         light.togglePower();
-        dao.update(light, userId);
+        dao.update(light, user_id);
     }
 
-    public void updateBrightness(String id, int brightness, String userId) {
-        SmartLight light = dao.findById(id, userId);
+    public void updateBrightness(String id, int brightness, String user_id) {
+        SmartLight light = dao.findById(id, user_id);
         light.setBrightness(brightness);
-        dao.update(light, userId);
+        dao.update(light, user_id);
     }
 
-    public void updateColor(String id, String color, String userId) {
-        SmartLight light = dao.findById(id, userId);
+    public void updateColor(String id, String color, String user_id) {
+        SmartLight light = dao.findById(id, user_id);
         light.setColor(color);
-        dao.update(light, userId);
+        dao.update(light, user_id);
     }
 
 

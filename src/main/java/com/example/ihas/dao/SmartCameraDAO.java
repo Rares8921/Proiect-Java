@@ -13,7 +13,7 @@ public class SmartCameraDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartCamera camera, String userId) {
+    public void save(SmartCamera camera, String user_id) {
         String sql = """
             INSERT INTO smart_camera (id, name, is_recording, resolution, detection_sensitivity, user_id)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -23,11 +23,11 @@ public class SmartCameraDAO {
                 camera.isRecording(),
                 camera.getResolution(),
                 camera.getDetectionSensitivity(),
-                userId
+                user_id
         );
     }
 
-    public SmartCamera findById(String id, String userId) {
+    public SmartCamera findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_recording, resolution, detection_sensitivity
             FROM smart_camera
@@ -43,10 +43,10 @@ public class SmartCameraDAO {
             c.setResolution(rs.getString("resolution"));
             c.setDetectionSensitivity(rs.getInt("detection_sensitivity"));
             return c;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartCamera> findAll(String userId) {
+    public List<SmartCamera> findAll(String user_id) {
         String sql = """
             SELECT id, name, is_recording, resolution, detection_sensitivity
             FROM smart_camera
@@ -62,10 +62,10 @@ public class SmartCameraDAO {
             c.setResolution(rs.getString("resolution"));
             c.setDetectionSensitivity(rs.getInt("detection_sensitivity"));
             return c;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartCamera camera, String userId) {
+    public void update(SmartCamera camera, String user_id) {
         String sql = """
             UPDATE smart_camera
             SET name = ?, is_recording = ?, resolution = ?, detection_sensitivity = ?
@@ -77,12 +77,12 @@ public class SmartCameraDAO {
                 camera.getResolution(),
                 camera.getDetectionSensitivity(),
                 camera.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_camera WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

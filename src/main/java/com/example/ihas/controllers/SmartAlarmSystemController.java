@@ -23,8 +23,8 @@ public class SmartAlarmSystemController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllAlarmSystems(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartAlarmSystem> list = alarmService.getAll(userId);
+        String user_id = auth.getName();
+        List<SmartAlarmSystem> list = alarmService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
@@ -41,8 +41,8 @@ public class SmartAlarmSystemController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getAlarmSystem(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartAlarmSystem alarm = alarmService.get(id, userId);
+            String user_id = auth.getName();
+            SmartAlarmSystem alarm = alarmService.get(id, user_id);
             Map<String, Object> result = mapping(alarm);
             result.put("eventLog", alarm.getEventLog());
             return ResponseEntity.ok(result);
@@ -56,9 +56,9 @@ public class SmartAlarmSystemController {
         try {
             String id = body.get("id").toString();
             String name = body.get("name").toString();
-            String userId = auth.getName();
+            String user_id = auth.getName();
             SmartAlarmSystem alarm = new SmartAlarmSystem(id, name);
-            alarmService.add(alarm, userId);
+            alarmService.add(alarm, user_id);
             return ResponseEntity.ok("Alarm system added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -68,8 +68,8 @@ public class SmartAlarmSystemController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAlarmSystem(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            alarmService.delete(id, userId);
+            String user_id = auth.getName();
+            alarmService.delete(id, user_id);
             return ResponseEntity.ok("Alarm system deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -79,8 +79,8 @@ public class SmartAlarmSystemController {
     @PostMapping("/{id}/arm")
     public ResponseEntity<String> armAlarm(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            alarmService.armAlarmSystem(id, userId);
+            String user_id = auth.getName();
+            alarmService.armAlarmSystem(id, user_id);
             return ResponseEntity.ok("Alarm armed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error arming alarm: " + e.getMessage());
@@ -90,8 +90,8 @@ public class SmartAlarmSystemController {
     @PostMapping("/{id}/disarm")
     public ResponseEntity<String> disarmAlarm(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            alarmService.disarmAlarmSystem(id, userId);
+            String user_id = auth.getName();
+            alarmService.disarmAlarmSystem(id, user_id);
             return ResponseEntity.ok("Alarm disarmed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error disarming alarm: " + e.getMessage());
@@ -101,8 +101,8 @@ public class SmartAlarmSystemController {
     @PostMapping("/{id}/trigger")
     public ResponseEntity<String> triggerAlarm(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            alarmService.triggerAlarm(id, userId);
+            String user_id = auth.getName();
+            alarmService.triggerAlarm(id, user_id);
             return ResponseEntity.ok("Alarm triggered");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error triggering alarm: " + e.getMessage());

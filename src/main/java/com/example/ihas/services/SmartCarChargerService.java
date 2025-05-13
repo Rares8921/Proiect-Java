@@ -19,32 +19,32 @@ public class SmartCarChargerService {
         tbService = _tbService;
     }
 
-    public SmartCarCharger get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartCarCharger get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartCarCharger> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartCarCharger> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartCarCharger charger, String userId) {
-        dao.save(charger, userId);
+    public void add(SmartCarCharger charger, String user_id) {
+        dao.save(charger, user_id);
         updateTelemetry(charger);
     }
 
-    public void update(SmartCarCharger charger, String userId) {
-        dao.update(charger, userId);
+    public void update(SmartCarCharger charger, String user_id) {
+        dao.update(charger, user_id);
         updateTelemetry(charger);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void toggleCharging(String id, String userId) {
-        SmartCarCharger charger = dao.findById(id, userId);
+    public void toggleCharging(String id, String user_id) {
+        SmartCarCharger charger = dao.findById(id, user_id);
         charger.togglePower();
-        dao.update(charger, userId);
+        dao.update(charger, user_id);
     }
 
 

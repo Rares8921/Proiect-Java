@@ -14,7 +14,7 @@ public class SmartSensorDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartSensor sensor, String userId) {
+    public void save(SmartSensor sensor, String user_id) {
         String sql = """
             INSERT INTO smart_sensor (id, name, sensor_type, last_reading, user_id)
             VALUES (?, ?, ?, ?, ?)
@@ -24,11 +24,11 @@ public class SmartSensorDAO {
                 sensor.getName(),
                 sensor.getSensorType().name(),
                 sensor.getLastReading(),
-                userId
+                user_id
         );
     }
 
-    public SmartSensor findById(String id, String userId) {
+    public SmartSensor findById(String id, String user_id) {
         String sql = """
             SELECT id, name, sensor_type, last_reading
             FROM smart_sensor
@@ -43,10 +43,10 @@ public class SmartSensorDAO {
             );
             sensor.setLastReading(rs.getDouble("last_reading"));
             return sensor;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartSensor> findAllByUser(String userId) {
+    public List<SmartSensor> findAllByUser(String user_id) {
         String sql = """
             SELECT id, name, sensor_type, last_reading
             FROM smart_sensor
@@ -61,10 +61,10 @@ public class SmartSensorDAO {
             );
             sensor.setLastReading(rs.getDouble("last_reading"));
             return sensor;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartSensor sensor, String userId) {
+    public void update(SmartSensor sensor, String user_id) {
         String sql = """
             UPDATE smart_sensor
             SET name = ?, sensor_type = ?, last_reading = ?
@@ -75,12 +75,12 @@ public class SmartSensorDAO {
                 sensor.getSensorType().name(),
                 sensor.getLastReading(),
                 sensor.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_sensor WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

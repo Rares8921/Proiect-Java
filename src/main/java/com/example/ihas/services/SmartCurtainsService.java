@@ -19,38 +19,38 @@ public class SmartCurtainsService {
         tbService = _tbService;
     }
 
-    public SmartCurtains get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartCurtains get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartCurtains> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartCurtains> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartCurtains curtains, String userId) {
-        dao.save(curtains, userId);
+    public void add(SmartCurtains curtains, String user_id) {
+        dao.save(curtains, user_id);
         updateTelemetry(curtains);
     }
 
-    public void update(SmartCurtains curtains, String userId) {
-        dao.update(curtains, userId);
+    public void update(SmartCurtains curtains, String user_id) {
+        dao.update(curtains, user_id);
         updateTelemetry(curtains);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void toggleCurtains(String id, String userId) {
-        SmartCurtains curtains = dao.findById(id, userId);
+    public void toggleCurtains(String id, String user_id) {
+        SmartCurtains curtains = dao.findById(id, user_id);
         curtains.togglePower();
-        dao.update(curtains, userId);
+        dao.update(curtains, user_id);
     }
 
-    public void updatePosition(String id, int position, String userId) {
-        SmartCurtains curtains = dao.findById(id, userId);
+    public void updatePosition(String id, int position, String user_id) {
+        SmartCurtains curtains = dao.findById(id, user_id);
         curtains.setPosition(position);
-        dao.update(curtains, userId);
+        dao.update(curtains, user_id);
     }
 
 

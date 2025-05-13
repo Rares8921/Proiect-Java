@@ -13,15 +13,15 @@ public class SmartAssistantDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartAssistant assistant, String userId) {
+    public void save(SmartAssistant assistant, String user_id) {
         String sql = """
             INSERT INTO smart_assistant (id, name, hub_id, user_id)
             VALUES (?, ?, ?, ?)
         """;
-        jdbcTemplate.update(sql, assistant.getId(), assistant.getName(), assistant.getHubId(), userId);
+        jdbcTemplate.update(sql, assistant.getId(), assistant.getName(), assistant.getHubId(), user_id);
     }
 
-    public SmartAssistant findById(String id, String userId) {
+    public SmartAssistant findById(String id, String user_id) {
         String sql = """
             SELECT id, name, hub_id
             FROM smart_assistant
@@ -32,10 +32,10 @@ public class SmartAssistantDAO {
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("hub_id")
-                ), id, userId);
+                ), id, user_id);
     }
 
-    public List<SmartAssistant> findAll(String userId) {
+    public List<SmartAssistant> findAll(String user_id) {
         String sql = """
             SELECT id, name, hub_id
             FROM smart_assistant
@@ -46,20 +46,20 @@ public class SmartAssistantDAO {
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("hub_id")
-                ), userId);
+                ), user_id);
     }
 
-    public void update(SmartAssistant assistant, String userId) {
+    public void update(SmartAssistant assistant, String user_id) {
         String sql = """
             UPDATE smart_assistant
             SET name = ?, hub_id = ?
             WHERE id = ? AND user_id = ?
         """;
-        jdbcTemplate.update(sql, assistant.getName(), assistant.getHubId(), assistant.getId(), userId);
+        jdbcTemplate.update(sql, assistant.getName(), assistant.getHubId(), assistant.getId(), user_id);
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_assistant WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

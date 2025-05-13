@@ -11,18 +11,18 @@ import java.util.Date;
 public class JwtUtil {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String userId) {
+    public String generateToken(String user_id) {
         // 1 month session
         long expiration = 2_628_288_000L;
         return Jwts.builder()
-                .setSubject(userId)
+                .setSubject(user_id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
                 .compact();
     }
 
-    public String extractUserId(String token) {
+    public String extractuser_id(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody()

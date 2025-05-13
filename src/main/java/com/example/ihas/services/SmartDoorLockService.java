@@ -19,32 +19,32 @@ public class SmartDoorLockService {
         tbService = _tbService;
     }
 
-    public SmartDoorLock get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartDoorLock get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartDoorLock> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartDoorLock> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartDoorLock lock, String userId) {
-        dao.save(lock, userId);
+    public void add(SmartDoorLock lock, String user_id) {
+        dao.save(lock, user_id);
         updateTelemetry(lock);
     }
 
-    public void update(SmartDoorLock lock, String userId) {
-        dao.update(lock, userId);
+    public void update(SmartDoorLock lock, String user_id) {
+        dao.update(lock, user_id);
         updateTelemetry(lock);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void toggleDoorLock(String id, String userId) {
-        SmartDoorLock lock = dao.findById(id, userId);
+    public void toggleDoorLock(String id, String user_id) {
+        SmartDoorLock lock = dao.findById(id, user_id);
         lock.togglePower();
-        dao.update(lock, userId);
+        dao.update(lock, user_id);
     }
 
 

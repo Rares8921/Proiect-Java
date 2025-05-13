@@ -15,25 +15,25 @@ public class SmartSensorService {
         dao = _dao;
     }
 
-    public SmartSensor getSensor(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartSensor getSensor(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartSensor> getAllSensors(String userId) {
-        return dao.findAllByUser(userId);
+    public List<SmartSensor> getAllSensors(String user_id) {
+        return dao.findAllByUser(user_id);
     }
 
-    public void addSensor(SmartSensor sensor, String userId) {
-        dao.save(sensor, userId);
+    public void addSensor(SmartSensor sensor, String user_id) {
+        dao.save(sensor, user_id);
     }
 
-    public void deleteSensor(String id, String userId) {
-        dao.delete(id, userId);
+    public void deleteSensor(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void updateReading(String id, double reading, String userId) {
-        SmartSensor sensor = dao.findById(id, userId);
+    public void updateReading(String id, double reading, String user_id) {
+        SmartSensor sensor = dao.findById(id, user_id);
         sensor.setLastReading(reading);
-        dao.update(sensor, userId);
+        dao.update(sensor, user_id);
     }
 }

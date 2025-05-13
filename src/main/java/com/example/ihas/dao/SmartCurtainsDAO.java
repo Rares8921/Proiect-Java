@@ -13,7 +13,7 @@ public class SmartCurtainsDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartCurtains curtains, String userId) {
+    public void save(SmartCurtains curtains, String user_id) {
         String sql = """
             INSERT INTO smart_curtains (id, name, position, user_id)
             VALUES (?, ?, ?, ?)
@@ -22,11 +22,11 @@ public class SmartCurtainsDAO {
                 curtains.getId(),
                 curtains.getName(),
                 curtains.getPosition(),
-                userId
+                user_id
         );
     }
 
-    public SmartCurtains findById(String id, String userId) {
+    public SmartCurtains findById(String id, String user_id) {
         String sql = """
             SELECT id, name, position
             FROM smart_curtains
@@ -36,10 +36,10 @@ public class SmartCurtainsDAO {
                 new SmartCurtains(
                         rs.getString("id"),
                         rs.getString("name")
-                ), id, userId);
+                ), id, user_id);
     }
 
-    public List<SmartCurtains> findAll(String userId) {
+    public List<SmartCurtains> findAll(String user_id) {
         String sql = """
             SELECT id, name, position
             FROM smart_curtains
@@ -49,10 +49,10 @@ public class SmartCurtainsDAO {
                 new SmartCurtains(
                         rs.getString("id"),
                         rs.getString("name")
-                ), userId);
+                ), user_id);
     }
 
-    public void update(SmartCurtains curtains, String userId) {
+    public void update(SmartCurtains curtains, String user_id) {
         String sql = """
             UPDATE smart_curtains
             SET name = ?, position = ?
@@ -62,12 +62,12 @@ public class SmartCurtainsDAO {
                 curtains.getName(),
                 curtains.getPosition(),
                 curtains.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_curtains WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

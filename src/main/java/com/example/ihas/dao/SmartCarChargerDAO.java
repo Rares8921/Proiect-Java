@@ -13,7 +13,7 @@ public class SmartCarChargerDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartCarCharger charger, String userId) {
+    public void save(SmartCarCharger charger, String user_id) {
         String sql = """
             INSERT INTO smart_car_charger (id, name, is_charging, current, voltage, user_id)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -23,11 +23,11 @@ public class SmartCarChargerDAO {
                 charger.getName(),
                 charger.isCharging(),
                 charger.getCurrent(), charger.getVoltage(),
-                userId
+                user_id
         );
     }
 
-    public SmartCarCharger findById(String id, String userId) {
+    public SmartCarCharger findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_charging, current, voltage
             FROM smart_car_charger
@@ -42,10 +42,10 @@ public class SmartCarChargerDAO {
             c.setCurrent(rs.getDouble("current"));
             c.setVoltage(rs.getDouble("voltage"));
             return c;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartCarCharger> findAll(String userId) {
+    public List<SmartCarCharger> findAll(String user_id) {
         String sql = """
             SELECT id, name, is_charging, current, voltage
             FROM smart_car_charger
@@ -60,10 +60,10 @@ public class SmartCarChargerDAO {
             c.setCurrent(rs.getDouble("current"));
             c.setVoltage(rs.getDouble("voltage"));
             return c;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartCarCharger charger, String userId) {
+    public void update(SmartCarCharger charger, String user_id) {
         String sql = """
             UPDATE smart_car_charger
             SET name = ?, is_charging = ?, current = ?, voltage = ?
@@ -75,12 +75,12 @@ public class SmartCarChargerDAO {
                 charger.getCurrent(),
                 charger.getVoltage(),
                 charger.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_car_charger WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

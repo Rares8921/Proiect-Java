@@ -23,8 +23,8 @@ public class SmartCarChargerController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllCarChargers(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartCarCharger> list = chargerService.getAll(userId);
+        String user_id = auth.getName();
+        List<SmartCarCharger> list = chargerService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
@@ -42,8 +42,8 @@ public class SmartCarChargerController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getCarCharger(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartCarCharger charger = chargerService.get(id, userId);
+            String user_id = auth.getName();
+            SmartCarCharger charger = chargerService.get(id, user_id);
             Map<String, Object> result = mapping(charger);
             result.put("eventLog", charger.getEventLog());
             return ResponseEntity.ok(result);
@@ -55,11 +55,11 @@ public class SmartCarChargerController {
     @PostMapping
     public ResponseEntity<String> addCarCharger(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartCarCharger charger = new SmartCarCharger(id, name);
-            chargerService.add(charger, userId);
+            chargerService.add(charger, user_id);
             return ResponseEntity.ok("SmartCarCharger added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -69,8 +69,8 @@ public class SmartCarChargerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCarCharger(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            chargerService.delete(id, userId);
+            String user_id = auth.getName();
+            chargerService.delete(id, user_id);
             return ResponseEntity.ok("SmartCarCharger deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -80,8 +80,8 @@ public class SmartCarChargerController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleCarCharger(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            chargerService.toggleCharging(id, userId);
+            String user_id = auth.getName();
+            chargerService.toggleCharging(id, user_id);
             return ResponseEntity.ok("SmartCarCharger toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartCarCharger: " + e.getMessage());

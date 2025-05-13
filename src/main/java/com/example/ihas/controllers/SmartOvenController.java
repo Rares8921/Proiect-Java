@@ -22,8 +22,8 @@ public class SmartOvenController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllOvens(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartOven> list = ovenService.getAllOvens(userId);
+        String user_id = auth.getName();
+        List<SmartOven> list = ovenService.getAllOvens(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
@@ -42,8 +42,8 @@ public class SmartOvenController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getOven(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartOven oven = ovenService.getOven(id, userId);
+            String user_id = auth.getName();
+            SmartOven oven = ovenService.getOven(id, user_id);
             Map<String, Object> result = mapping(oven);
             result.put("eventLog", oven.getEventLog());
             return ResponseEntity.ok(result);
@@ -55,11 +55,11 @@ public class SmartOvenController {
     @PostMapping
     public ResponseEntity<String> addOven(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartOven oven = new SmartOven(id, name);
-            ovenService.addOven(oven, userId);
+            ovenService.addOven(oven, user_id);
             return ResponseEntity.ok("SmartOven added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -69,8 +69,8 @@ public class SmartOvenController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOven(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            ovenService.deleteOven(id, userId);
+            String user_id = auth.getName();
+            ovenService.deleteOven(id, user_id);
             return ResponseEntity.ok("SmartOven deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -80,8 +80,8 @@ public class SmartOvenController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleOven(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            ovenService.togglePower(id, userId);
+            String user_id = auth.getName();
+            ovenService.togglePower(id, user_id);
             return ResponseEntity.ok("SmartOven toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling oven: " + e.getMessage());
@@ -91,8 +91,8 @@ public class SmartOvenController {
     @PostMapping("/{id}/updateTemperature")
     public ResponseEntity<String> updateTemperature(@PathVariable String id, @RequestParam double temperature, Authentication auth) {
         try {
-            String userId = auth.getName();
-            ovenService.updateTemperature(id, temperature, userId);
+            String user_id = auth.getName();
+            ovenService.updateTemperature(id, temperature, user_id);
             return ResponseEntity.ok("Temperature updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating temperature: " + e.getMessage());
@@ -102,8 +102,8 @@ public class SmartOvenController {
     @PostMapping("/{id}/updateTimer")
     public ResponseEntity<String> updateTimer(@PathVariable String id, @RequestParam int timer, Authentication auth) {
         try {
-            String userId = auth.getName();
-            ovenService.updateTimer(id, timer, userId);
+            String user_id = auth.getName();
+            ovenService.updateTimer(id, timer, user_id);
             return ResponseEntity.ok("Timer updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating timer: " + e.getMessage());
@@ -113,8 +113,8 @@ public class SmartOvenController {
     @PostMapping("/{id}/setPreheat")
     public ResponseEntity<String> setPreheat(@PathVariable String id, @RequestParam boolean preheat, Authentication auth) {
         try {
-            String userId = auth.getName();
-            ovenService.setPreheat(id, preheat, userId);
+            String user_id = auth.getName();
+            ovenService.setPreheat(id, preheat, user_id);
             return ResponseEntity.ok("Preheat state updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error setting preheat: " + e.getMessage());

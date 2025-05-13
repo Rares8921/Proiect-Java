@@ -20,8 +20,8 @@ public class SmartAssistantController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> getAllAssistants( String userId) {
-        List<SmartAssistant> list = assistantService.getAll(userId);
+    public ResponseEntity<List<Map<String, Object>>> getAllAssistants( String user_id) {
+        List<SmartAssistant> list = assistantService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(a -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", a.getId());
@@ -34,9 +34,9 @@ public class SmartAssistantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getAssistant(@PathVariable String id,  String userId) {
+    public ResponseEntity<Map<String, Object>> getAssistant(@PathVariable String id,  String user_id) {
         try {
-            SmartAssistant assistant = assistantService.get(id, userId);
+            SmartAssistant assistant = assistantService.get(id, user_id);
             Map<String, Object> result = new HashMap<>();
             result.put("id", assistant.getId());
             result.put("name", assistant.getName());
@@ -49,13 +49,13 @@ public class SmartAssistantController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addAssistant(@RequestBody Map<String, Object> body,  String userId) {
+    public ResponseEntity<String> addAssistant(@RequestBody Map<String, Object> body,  String user_id) {
         try {
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             String hubId = body.get("hubId").toString();
             SmartAssistant assistant = new SmartAssistant(id, name, hubId);
-            assistantService.add(assistant, userId);
+            assistantService.add(assistant, user_id);
             return ResponseEntity.ok("SmartAssistant added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -63,9 +63,9 @@ public class SmartAssistantController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAssistant(@PathVariable String id,  String userId) {
+    public ResponseEntity<String> deleteAssistant(@PathVariable String id,  String user_id) {
         try {
-            assistantService.delete(id, userId);
+            assistantService.delete(id, user_id);
             return ResponseEntity.ok("SmartAssistant deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -73,9 +73,9 @@ public class SmartAssistantController {
     }
 
     @PostMapping("/{id}/process")
-    public ResponseEntity<String> processCommand(@PathVariable String id, @RequestParam String command,  String userId) {
+    public ResponseEntity<String> processCommand(@PathVariable String id, @RequestParam String command,  String user_id) {
         try {
-            assistantService.processVoiceCommand(id, command, userId);
+            assistantService.processVoiceCommand(id, command, user_id);
             return ResponseEntity.ok("Command processed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error processing command: " + e.getMessage());

@@ -23,8 +23,8 @@ public class SmartLightController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllLights(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartLight> list = lightService.getAll(userId);
+        String user_id = auth.getName();
+        List<SmartLight> list = lightService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
@@ -42,8 +42,8 @@ public class SmartLightController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getLight(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartLight light = lightService.get(id, userId);
+            String user_id = auth.getName();
+            SmartLight light = lightService.get(id, user_id);
             Map<String, Object> result = mapping(light);
             result.put("eventLog", light.getEventLog());
             return ResponseEntity.ok(result);
@@ -55,11 +55,11 @@ public class SmartLightController {
     @PostMapping
     public ResponseEntity<String> addLight(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartLight light = new SmartLight(id, name);
-            lightService.add(light, userId);
+            lightService.add(light, user_id);
             return ResponseEntity.ok("SmartLight added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -69,8 +69,8 @@ public class SmartLightController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteLight(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            lightService.delete(id, userId);
+            String user_id = auth.getName();
+            lightService.delete(id, user_id);
             return ResponseEntity.ok("SmartLight deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -80,8 +80,8 @@ public class SmartLightController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleLight(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            lightService.togglePower(id, userId);
+            String user_id = auth.getName();
+            lightService.togglePower(id, user_id);
             return ResponseEntity.ok("SmartLight toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartLight: " + e.getMessage());
@@ -91,8 +91,8 @@ public class SmartLightController {
     @PostMapping("/{id}/updateBrightness")
     public ResponseEntity<String> updateBrightness(@PathVariable String id, @RequestParam int brightness, Authentication auth) {
         try {
-            String userId = auth.getName();
-            lightService.updateBrightness(id, brightness, userId);
+            String user_id = auth.getName();
+            lightService.updateBrightness(id, brightness, user_id);
             return ResponseEntity.ok("Brightness updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating brightness: " + e.getMessage());
@@ -102,8 +102,8 @@ public class SmartLightController {
     @PostMapping("/{id}/updateColor")
     public ResponseEntity<String> updateColor(@PathVariable String id, @RequestParam String color, Authentication auth) {
         try {
-            String userId = auth.getName();
-            lightService.updateColor(id, color, userId);
+            String user_id = auth.getName();
+            lightService.updateColor(id, color, user_id);
             return ResponseEntity.ok("Color updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating color: " + e.getMessage());

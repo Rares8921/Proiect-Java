@@ -13,7 +13,7 @@ public class SmartRefrigeratorDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartRefrigerator fridge, String userId) {
+    public void save(SmartRefrigerator fridge, String user_id) {
         String sql = """
             INSERT INTO smart_refrigerator (id, name, temperature, door_open, user_id)
             VALUES (?, ?, ?, ?, ?)
@@ -23,11 +23,11 @@ public class SmartRefrigeratorDAO {
                 fridge.getName(),
                 fridge.getTemperature(),
                 fridge.isDoorOpen(),
-                userId
+                user_id
         );
     }
 
-    public SmartRefrigerator findById(String id, String userId) {
+    public SmartRefrigerator findById(String id, String user_id) {
         String sql = """
             SELECT id, name, temperature, door_open
             FROM smart_refrigerator
@@ -43,10 +43,10 @@ public class SmartRefrigeratorDAO {
                 fr.togglePower();
             }
             return fr;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartRefrigerator> findAllByUser(String userId) {
+    public List<SmartRefrigerator> findAllByUser(String user_id) {
         String sql = """
             SELECT id, name, temperature, door_open
             FROM smart_refrigerator
@@ -62,10 +62,10 @@ public class SmartRefrigeratorDAO {
                 fr.togglePower();
             }
             return fr;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartRefrigerator fridge, String userId) {
+    public void update(SmartRefrigerator fridge, String user_id) {
         String sql = """
             UPDATE smart_refrigerator
             SET name = ?, temperature = ?, door_open = ?
@@ -76,12 +76,12 @@ public class SmartRefrigeratorDAO {
                 fridge.getTemperature(),
                 fridge.isDoorOpen(),
                 fridge.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_refrigerator WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

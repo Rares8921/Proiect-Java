@@ -23,8 +23,8 @@ public class SmartHubController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllHubs(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartHub> list = hubService.getAll(userId);
+        String user_id = auth.getName();
+        List<SmartHub> list = hubService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(hub -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", hub.getId());
@@ -38,8 +38,8 @@ public class SmartHubController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getHub(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartHub hub = hubService.get(id, userId);
+            String user_id = auth.getName();
+            SmartHub hub = hubService.get(id, user_id);
             Map<String, Object> result = new HashMap<>();
             result.put("id", hub.getId());
             result.put("name", hub.getName());
@@ -53,11 +53,11 @@ public class SmartHubController {
     @PostMapping
     public ResponseEntity<String> addHub(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartHub hub = new SmartHub(id, name);
-            hubService.add(hub, userId);
+            hubService.add(hub, user_id);
             return ResponseEntity.ok("SmartHub added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -67,8 +67,8 @@ public class SmartHubController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteHub(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            hubService.delete(id, userId);
+            String user_id = auth.getName();
+            hubService.delete(id, user_id);
             return ResponseEntity.ok("SmartHub deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -78,10 +78,10 @@ public class SmartHubController {
     @PostMapping("/{id}")
     public ResponseEntity<String> updateHub(@PathVariable String id, @RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String name = body.get("name").toString();
             SmartHub hub = new SmartHub(id, name);
-            hubService.update(hub, userId);
+            hubService.update(hub, user_id);
             return ResponseEntity.ok("SmartHub updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -91,8 +91,8 @@ public class SmartHubController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleHub(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            hubService.togglePower(id, userId);
+            String user_id = auth.getName();
+            hubService.togglePower(id, user_id);
             return ResponseEntity.ok("SmartHub toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartHub: " + e.getMessage());

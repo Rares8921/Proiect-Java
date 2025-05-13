@@ -13,7 +13,7 @@ public class SmartThermostatDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartThermostat thermostat, String userId) {
+    public void save(SmartThermostat thermostat, String user_id) {
         String sql = """
             INSERT INTO smart_thermostat (id, name, is_on, temperature, mode, user_id)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -24,11 +24,11 @@ public class SmartThermostatDAO {
                 thermostat.isOn(),
                 thermostat.getTemperature(),
                 thermostat.getMode().name(),
-                userId
+                user_id
         );
     }
 
-    public SmartThermostat findById(String id, String userId) {
+    public SmartThermostat findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_on, temperature, mode
             FROM smart_thermostat
@@ -46,10 +46,10 @@ public class SmartThermostatDAO {
             st.setTemperature(rs.getDouble("temperature"));
             st.setMode(mode);
             return st;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartThermostat> findAllByUser(String userId) {
+    public List<SmartThermostat> findAllByUser(String user_id) {
         String sql = """
             SELECT id, name, is_on, temperature, mode
             FROM smart_thermostat
@@ -67,10 +67,10 @@ public class SmartThermostatDAO {
             st.setTemperature(rs.getDouble("temperature"));
             st.setMode(mode);
             return st;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartThermostat thermostat, String userId) {
+    public void update(SmartThermostat thermostat, String user_id) {
         String sql = """
             UPDATE smart_thermostat
             SET name = ?, is_on = ?, temperature = ?, mode = ?
@@ -82,12 +82,12 @@ public class SmartThermostatDAO {
                 thermostat.getTemperature(),
                 thermostat.getMode().name(),
                 thermostat.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_thermostat WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

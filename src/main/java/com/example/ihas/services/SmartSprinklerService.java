@@ -19,38 +19,38 @@ public class SmartSprinklerService {
         thingsBoardService = _thingsBoardService;
     }
 
-    public SmartSprinkler getSprinkler(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartSprinkler getSprinkler(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartSprinkler> getAllSprinklers(String userId) {
-        return dao.findAllByUser(userId);
+    public List<SmartSprinkler> getAllSprinklers(String user_id) {
+        return dao.findAllByUser(user_id);
     }
 
-    public void addSprinkler(SmartSprinkler sprinkler, String userId) {
-        dao.save(sprinkler, userId);
+    public void addSprinkler(SmartSprinkler sprinkler, String user_id) {
+        dao.save(sprinkler, user_id);
     }
 
-    public void deleteSprinkler(String id, String userId) {
-        dao.delete(id, userId);
+    public void deleteSprinkler(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void setDuration(String id, int duration, String userId) {
-        SmartSprinkler sprinkler = dao.findById(id, userId);
+    public void setDuration(String id, int duration, String user_id) {
+        SmartSprinkler sprinkler = dao.findById(id, user_id);
         sprinkler.setWateringDuration(duration);
-        dao.update(sprinkler, userId);
+        dao.update(sprinkler, user_id);
     }
 
-    public void togglePower(String id, String userId) {
-        SmartSprinkler sprinkler = dao.findById(id, userId);
+    public void togglePower(String id, String user_id) {
+        SmartSprinkler sprinkler = dao.findById(id, user_id);
         sprinkler.togglePower();
-        dao.update(sprinkler, userId);
+        dao.update(sprinkler, user_id);
     }
 
-    public void updateWateringDuration(String id, int duration, String userId) {
-        SmartSprinkler sprinkler = dao.findById(id, userId);
+    public void updateWateringDuration(String id, int duration, String user_id) {
+        SmartSprinkler sprinkler = dao.findById(id, user_id);
         sprinkler.setWateringDuration(duration);
-        dao.update(sprinkler, userId);
+        dao.update(sprinkler, user_id);
 
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("wateringDuration", duration);

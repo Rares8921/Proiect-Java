@@ -23,8 +23,8 @@ public class SmartCurtainsController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllCurtains(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartCurtains> list = curtainsService.getAll(userId);
+        String user_id = auth.getName();
+        List<SmartCurtains> list = curtainsService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(curtain -> {
             Map<String, Object> m = new HashMap<>();
             m.put("id", curtain.getId());
@@ -38,8 +38,8 @@ public class SmartCurtainsController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getCurtains(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartCurtains curtain = curtainsService.get(id, userId);
+            String user_id = auth.getName();
+            SmartCurtains curtain = curtainsService.get(id, user_id);
             Map<String, Object> result = new HashMap<>();
             result.put("id", curtain.getId());
             result.put("name", curtain.getName());
@@ -54,13 +54,13 @@ public class SmartCurtainsController {
     @PostMapping
     public ResponseEntity<String> addCurtains(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             int position = body.containsKey("position") ? Integer.parseInt(body.get("position").toString()) : 0;
             SmartCurtains curtain = new SmartCurtains(id, name);
             curtain.setPosition(position);
-            curtainsService.add(curtain, userId);
+            curtainsService.add(curtain, user_id);
             return ResponseEntity.ok("SmartCurtains added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -70,8 +70,8 @@ public class SmartCurtainsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCurtains(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            curtainsService.delete(id, userId);
+            String user_id = auth.getName();
+            curtainsService.delete(id, user_id);
             return ResponseEntity.ok("SmartCurtains deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -81,8 +81,8 @@ public class SmartCurtainsController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleCurtains(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            curtainsService.toggleCurtains(id, userId);
+            String user_id = auth.getName();
+            curtainsService.toggleCurtains(id, user_id);
             return ResponseEntity.ok("SmartCurtains toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling curtains: " + e.getMessage());
@@ -94,8 +94,8 @@ public class SmartCurtainsController {
         try {
             if (body.containsKey("position")) {
                 int pos = Integer.parseInt(body.get("position").toString());
-                String userId = auth.getName();
-                curtainsService.updatePosition(id, pos, userId);
+                String user_id = auth.getName();
+                curtainsService.updatePosition(id, pos, user_id);
                 return ResponseEntity.ok("Position updated");
             } else {
                 return ResponseEntity.badRequest().body("Position value is required");

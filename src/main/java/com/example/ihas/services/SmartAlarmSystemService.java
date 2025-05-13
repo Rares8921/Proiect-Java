@@ -19,44 +19,44 @@ public class SmartAlarmSystemService {
         tbService = _tbService;
     }
 
-    public SmartAlarmSystem get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartAlarmSystem get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartAlarmSystem> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartAlarmSystem> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartAlarmSystem alarm, String userId) {
-        dao.save(alarm, userId);
+    public void add(SmartAlarmSystem alarm, String user_id) {
+        dao.save(alarm, user_id);
         updateTelemetry(alarm);
     }
 
-    public void update(SmartAlarmSystem alarm, String userId) {
-        dao.update(alarm, userId);
+    public void update(SmartAlarmSystem alarm, String user_id) {
+        dao.update(alarm, user_id);
         updateTelemetry(alarm);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void armAlarmSystem(String id, String userId) {
-        SmartAlarmSystem alarm = get(id, userId);
+    public void armAlarmSystem(String id, String user_id) {
+        SmartAlarmSystem alarm = get(id, user_id);
         alarm.arm();
-        dao.update(alarm, userId);
+        dao.update(alarm, user_id);
     }
 
-    public void disarmAlarmSystem(String id, String userId) {
-        SmartAlarmSystem alarm = get(id, userId);
+    public void disarmAlarmSystem(String id, String user_id) {
+        SmartAlarmSystem alarm = get(id, user_id);
         alarm.disarm();
-        dao.update(alarm, userId);
+        dao.update(alarm, user_id);
     }
 
-    public void triggerAlarm(String id, String userId) {
-        SmartAlarmSystem alarm = get(id, userId);
+    public void triggerAlarm(String id, String user_id) {
+        SmartAlarmSystem alarm = get(id, user_id);
         alarm.triggerAlarm();
-        dao.update(alarm, userId);
+        dao.update(alarm, user_id);
     }
 
     private void updateTelemetry(SmartAlarmSystem a) {

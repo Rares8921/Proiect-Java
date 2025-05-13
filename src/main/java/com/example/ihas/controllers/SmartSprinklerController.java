@@ -23,8 +23,8 @@ public class SmartSprinklerController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllSprinklers(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartSprinkler> list = sprinklerService.getAllSprinklers(userId);
+        String user_id = auth.getName();
+        List<SmartSprinkler> list = sprinklerService.getAllSprinklers(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
@@ -41,8 +41,8 @@ public class SmartSprinklerController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getSprinkler(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartSprinkler sprinkler = sprinklerService.getSprinkler(id, userId);
+            String user_id = auth.getName();
+            SmartSprinkler sprinkler = sprinklerService.getSprinkler(id, user_id);
             Map<String, Object> result = mapping(sprinkler);
             result.put("eventLog", sprinkler.getEventLog());
             return ResponseEntity.ok(result);
@@ -54,7 +54,7 @@ public class SmartSprinklerController {
     @PostMapping
     public ResponseEntity<String> addSprinkler(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartSprinkler sprinkler = new SmartSprinkler(id, name);
@@ -62,7 +62,7 @@ public class SmartSprinklerController {
                 int duration = Integer.parseInt(body.get("wateringDuration").toString());
                 sprinkler.setWateringDuration(duration);
             }
-            sprinklerService.addSprinkler(sprinkler, userId);
+            sprinklerService.addSprinkler(sprinkler, user_id);
             return ResponseEntity.ok("SmartSprinkler added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -72,8 +72,8 @@ public class SmartSprinklerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSprinkler(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            sprinklerService.deleteSprinkler(id, userId);
+            String user_id = auth.getName();
+            sprinklerService.deleteSprinkler(id, user_id);
             return ResponseEntity.ok("SmartSprinkler deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -83,8 +83,8 @@ public class SmartSprinklerController {
     @PostMapping("/{id}/toggle")
     public ResponseEntity<String> toggleSprinkler(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            sprinklerService.togglePower(id, userId);
+            String user_id = auth.getName();
+            sprinklerService.togglePower(id, user_id);
             return ResponseEntity.ok("SmartSprinkler toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartSprinkler: " + e.getMessage());
@@ -94,10 +94,10 @@ public class SmartSprinklerController {
     @PostMapping("/{id}/updateDuration")
     public ResponseEntity<String> updateWateringDuration(@PathVariable String id, @RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             if (body.containsKey("wateringDuration")) {
                 int duration = Integer.parseInt(body.get("wateringDuration").toString());
-                sprinklerService.updateWateringDuration(id, duration, userId);
+                sprinklerService.updateWateringDuration(id, duration, user_id);
                 return ResponseEntity.ok("Watering duration updated");
             } else {
                 return ResponseEntity.badRequest().body("Watering duration is required");

@@ -20,16 +20,16 @@ public class SmartThermostatService {
         thingsBoardService = tbService;
     }
 
-    public SmartThermostat getThermostat(String id, String userId) {
-        return thermostatDAO.findById(id, userId);
+    public SmartThermostat getThermostat(String id, String user_id) {
+        return thermostatDAO.findById(id, user_id);
     }
 
-    public List<SmartThermostat> getAllThermostats(String userId) {
-        return thermostatDAO.findAllByUser(userId);
+    public List<SmartThermostat> getAllThermostats(String user_id) {
+        return thermostatDAO.findAllByUser(user_id);
     }
 
-    public void addThermostat(SmartThermostat thermostat, String userId) {
-        thermostatDAO.save(thermostat, userId);
+    public void addThermostat(SmartThermostat thermostat, String user_id) {
+        thermostatDAO.save(thermostat, user_id);
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("temperature", thermostat.getTemperature());
         telemetry.put("mode", thermostat.getMode().name());
@@ -37,41 +37,41 @@ public class SmartThermostatService {
         thingsBoardService.updateTelemetry(thingsBoardBaseUrl, thermostat.getId(), telemetry);
     }
 
-    public void deleteThermostat(String id, String userId) {
-        thermostatDAO.delete(id, userId);
+    public void deleteThermostat(String id, String user_id) {
+        thermostatDAO.delete(id, user_id);
     }
 
-    public void updateTemperature(String id, double newTemp, String userId) {
-        SmartThermostat st = thermostatDAO.findById(id, userId);
+    public void updateTemperature(String id, double newTemp, String user_id) {
+        SmartThermostat st = thermostatDAO.findById(id, user_id);
         st.setTemperature(newTemp);
-        thermostatDAO.update(st, userId);
+        thermostatDAO.update(st, user_id);
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("temperature", st.getTemperature());
         thingsBoardService.updateTelemetry(thingsBoardBaseUrl, st.getId(), telemetry);
     }
 
-    public void updateMode(String id, SmartThermostat.Mode mode, String userId) {
-        SmartThermostat st = thermostatDAO.findById(id, userId);
+    public void updateMode(String id, SmartThermostat.Mode mode, String user_id) {
+        SmartThermostat st = thermostatDAO.findById(id, user_id);
         st.setMode(mode);
-        thermostatDAO.update(st, userId);
+        thermostatDAO.update(st, user_id);
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("mode", st.getMode().name());
         thingsBoardService.updateTelemetry(thingsBoardBaseUrl, st.getId(), telemetry);
     }
 
-    public void togglePower(String id, String userId) {
-        SmartThermostat st = thermostatDAO.findById(id, userId);
+    public void togglePower(String id, String user_id) {
+        SmartThermostat st = thermostatDAO.findById(id, user_id);
         st.togglePower();
-        thermostatDAO.update(st, userId);
+        thermostatDAO.update(st, user_id);
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("isOn", st.isOn());
         thingsBoardService.updateTelemetry(thingsBoardBaseUrl, st.getId(), telemetry);
     }
 
-    public void autoAdjust(String id, double ambientTemp, String userId) {
-        SmartThermostat st = thermostatDAO.findById(id, userId);
+    public void autoAdjust(String id, double ambientTemp, String user_id) {
+        SmartThermostat st = thermostatDAO.findById(id, user_id);
         st.autoAdjustTemperature(ambientTemp);
-        thermostatDAO.update(st, userId);
+        thermostatDAO.update(st, user_id);
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("temperature", st.getTemperature());
         telemetry.put("mode", st.getMode().name());

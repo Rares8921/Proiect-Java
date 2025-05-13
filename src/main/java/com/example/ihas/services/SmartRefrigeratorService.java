@@ -17,54 +17,54 @@ public class SmartRefrigeratorService {
         dao = _dao;
     }
 
-    public SmartRefrigerator getRefrigerator(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartRefrigerator getRefrigerator(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartRefrigerator> getAllRefrigerators(String userId) {
-        return dao.findAllByUser(userId);
+    public List<SmartRefrigerator> getAllRefrigerators(String user_id) {
+        return dao.findAllByUser(user_id);
     }
 
-    public void addRefrigerator(SmartRefrigerator refrigerator, String userId) {
-        dao.save(refrigerator, userId);
+    public void addRefrigerator(SmartRefrigerator refrigerator, String user_id) {
+        dao.save(refrigerator, user_id);
     }
 
-    public void deleteRefrigerator(String id, String userId) {
-        dao.delete(id, userId);
+    public void deleteRefrigerator(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void setTemperature(String id, double temp, String userId) {
-        SmartRefrigerator fr = dao.findById(id, userId);
+    public void setTemperature(String id, double temp, String user_id) {
+        SmartRefrigerator fr = dao.findById(id, user_id);
         fr.setTemperature(temp);
-        dao.update(fr, userId);
+        dao.update(fr, user_id);
     }
 
-    public void updateTemperature(String id, double temp, String userId) {
-        SmartRefrigerator ref = dao.findById(id, userId);
+    public void updateTemperature(String id, double temp, String user_id) {
+        SmartRefrigerator ref = dao.findById(id, user_id);
         ref.setTemperature(temp);
-        dao.update(ref, userId);
+        dao.update(ref, user_id);
     }
 
-    public void toggleDoor(String id, String userId) {
-        SmartRefrigerator fr = dao.findById(id, userId);
+    public void toggleDoor(String id, String user_id) {
+        SmartRefrigerator fr = dao.findById(id, user_id);
         fr.togglePower();
-        dao.update(fr, userId);
+        dao.update(fr, user_id);
     }
 
-    public void addItem(String id, String item, String expiry, String userId) {
-        SmartRefrigerator ref = dao.findById(id, userId);
+    public void addItem(String id, String item, String expiry, String user_id) {
+        SmartRefrigerator ref = dao.findById(id, user_id);
         ref.addItem(item, LocalDate.parse(expiry));
-        dao.update(ref, userId);
+        dao.update(ref, user_id);
     }
 
-    public void removeItem(String id, String item, String userId) {
-        SmartRefrigerator ref = dao.findById(id, userId);
+    public void removeItem(String id, String item, String user_id) {
+        SmartRefrigerator ref = dao.findById(id, user_id);
         ref.removeItem(item);
-        dao.update(ref, userId);
+        dao.update(ref, user_id);
     }
 
-    public String checkExpiredItems(String id, String userId) {
-        SmartRefrigerator ref = dao.findById(id, userId);
+    public String checkExpiredItems(String id, String user_id) {
+        SmartRefrigerator ref = dao.findById(id, user_id);
         List<String> expired = ref.getInventory().entrySet().stream()
                 .filter(entry -> entry.getKey().isBefore(LocalDate.now()))
                 .flatMap(entry -> entry.getValue().stream())

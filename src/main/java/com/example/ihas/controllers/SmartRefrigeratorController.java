@@ -22,8 +22,8 @@ public class SmartRefrigeratorController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getAllRefrigerators(Authentication auth) {
-        String userId = auth.getName();
-        List<SmartRefrigerator> list = refrigeratorService.getAllRefrigerators(userId);
+        String user_id = auth.getName();
+        List<SmartRefrigerator> list = refrigeratorService.getAllRefrigerators(user_id);
         List<Map<String, Object>> response = list.stream().map(ref -> {
             Map<String, Object> m = mapping(ref);
             m.put("inventorySize", ref.getInventory().size());
@@ -44,8 +44,8 @@ public class SmartRefrigeratorController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getRefrigerator(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            SmartRefrigerator ref = refrigeratorService.getRefrigerator(id, userId);
+            String user_id = auth.getName();
+            SmartRefrigerator ref = refrigeratorService.getRefrigerator(id, user_id);
             Map<String, Object> result = mapping(ref);
             result.put("inventory", ref.getInventory());
             result.put("eventLog", ref.getEventLog());
@@ -58,7 +58,7 @@ public class SmartRefrigeratorController {
     @PostMapping
     public ResponseEntity<String> addRefrigerator(@RequestBody Map<String, Object> body, Authentication auth) {
         try {
-            String userId = auth.getName();
+            String user_id = auth.getName();
             String id = body.get("id").toString();
             String name = body.get("name").toString();
             SmartRefrigerator ref = new SmartRefrigerator(id, name);
@@ -66,7 +66,7 @@ public class SmartRefrigeratorController {
                 double t = Double.parseDouble(body.get("temperature").toString());
                 ref.setTemperature(t);
             }
-            refrigeratorService.addRefrigerator(ref, userId);
+            refrigeratorService.addRefrigerator(ref, user_id);
             return ResponseEntity.ok("Refrigerator added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -76,8 +76,8 @@ public class SmartRefrigeratorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRefrigerator(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            refrigeratorService.deleteRefrigerator(id, userId);
+            String user_id = auth.getName();
+            refrigeratorService.deleteRefrigerator(id, user_id);
             return ResponseEntity.ok("Refrigerator deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -89,8 +89,8 @@ public class SmartRefrigeratorController {
         try {
             if (body.containsKey("temperature")) {
                 double t = Double.parseDouble(body.get("temperature").toString());
-                String userId = auth.getName();
-                refrigeratorService.updateTemperature(id, t, userId);
+                String user_id = auth.getName();
+                refrigeratorService.updateTemperature(id, t, user_id);
                 return ResponseEntity.ok("Temperature updated");
             } else {
                 return ResponseEntity.badRequest().body("Temperature value is required");
@@ -103,8 +103,8 @@ public class SmartRefrigeratorController {
     @PostMapping("/{id}/toggleDoor")
     public ResponseEntity<String> toggleDoor(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            refrigeratorService.toggleDoor(id, userId);
+            String user_id = auth.getName();
+            refrigeratorService.toggleDoor(id, user_id);
             return ResponseEntity.ok("Door toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling door: " + e.getMessage());
@@ -116,8 +116,8 @@ public class SmartRefrigeratorController {
         try {
             String item = body.get("item").toString();
             String expiry = body.get("expiry").toString();
-            String userId = auth.getName();
-            refrigeratorService.addItem(id, item, expiry, userId);
+            String user_id = auth.getName();
+            refrigeratorService.addItem(id, item, expiry, user_id);
             return ResponseEntity.ok("Item added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding item: " + e.getMessage());
@@ -128,8 +128,8 @@ public class SmartRefrigeratorController {
     public ResponseEntity<String> removeItem(@PathVariable String id, @RequestBody Map<String, Object> body, Authentication auth) {
         try {
             String item = body.get("item").toString();
-            String userId = auth.getName();
-            refrigeratorService.removeItem(id, item, userId);
+            String user_id = auth.getName();
+            refrigeratorService.removeItem(id, item, user_id);
             return ResponseEntity.ok("Item removed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error removing item: " + e.getMessage());
@@ -139,8 +139,8 @@ public class SmartRefrigeratorController {
     @GetMapping("/{id}/checkExpired")
     public ResponseEntity<String> checkExpired(@PathVariable String id, Authentication auth) {
         try {
-            String userId = auth.getName();
-            String result = refrigeratorService.checkExpiredItems(id, userId);
+            String user_id = auth.getName();
+            String result = refrigeratorService.checkExpiredItems(id, user_id);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error checking expired items: " + e.getMessage());

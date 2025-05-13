@@ -14,30 +14,30 @@ public class SmartHubService {
         dao = _dao;
     }
 
-    public SmartHub get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartHub get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartHub> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartHub> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartHub hub, String userId) {
-        dao.save(hub, userId);
+    public void add(SmartHub hub, String user_id) {
+        dao.save(hub, user_id);
     }
 
-    public void update(SmartHub hub, String userId) {
-        dao.update(hub, userId);
+    public void update(SmartHub hub, String user_id) {
+        dao.update(hub, user_id);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void togglePower(String id, String userId) {
-        SmartHub hub = dao.findById(id, userId);
+    public void togglePower(String id, String user_id) {
+        SmartHub hub = dao.findById(id, user_id);
         hub.togglePower();
-        dao.update(hub, userId);
+        dao.update(hub, user_id);
     }
 
 }

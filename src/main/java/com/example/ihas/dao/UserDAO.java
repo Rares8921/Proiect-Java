@@ -17,13 +17,13 @@ public class UserDAO {
 
     private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
         User user = new User(rs.getString("email"), rs.getString("password"), rs.getString("verification_token"));
-        user.setId(UUID.fromString(rs.getString("userId")));
+        user.setId(UUID.fromString(rs.getString("user_id")));
         user.setEnabled(rs.getBoolean("enabled"));
         return user;
     };
 
     public void save(User user) {
-        String sql = "INSERT INTO users (userId, email, password, enabled, verification_token) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (user_id, email, password, enabled, verification_token) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getId().toString(), user.getEmail(), user.getPassword(), user.isEnabled(), user.getVerificationToken());
     }
 
@@ -32,9 +32,9 @@ public class UserDAO {
         return jdbcTemplate.query(sql, userRowMapper, email).stream().findFirst();
     }
 
-    public Optional<User> findById(String userId) {
-        String sql = "SELECT * FROM users WHERE userId = ?";
-        return jdbcTemplate.query(sql, userRowMapper, userId).stream().findFirst();
+    public Optional<User> findById(String user_id) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        return jdbcTemplate.query(sql, userRowMapper, user_id).stream().findFirst();
     }
 
     public Optional<User> findByToken(String token) {

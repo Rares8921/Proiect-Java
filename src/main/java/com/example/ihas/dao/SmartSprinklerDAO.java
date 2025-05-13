@@ -12,7 +12,7 @@ public class SmartSprinklerDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartSprinkler sprinkler, String userId) {
+    public void save(SmartSprinkler sprinkler, String user_id) {
         String sql = """
             INSERT INTO smart_sprinkler (id, name, is_on, watering_duration, user_id)
             VALUES (?, ?, ?, ?, ?)
@@ -22,11 +22,11 @@ public class SmartSprinklerDAO {
                 sprinkler.getName(),
                 sprinkler.isOn(),
                 sprinkler.getWateringDuration(),
-                userId
+                user_id
         );
     }
 
-    public SmartSprinkler findById(String id, String userId) {
+    public SmartSprinkler findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_on, watering_duration
             FROM smart_sprinkler
@@ -42,10 +42,10 @@ public class SmartSprinklerDAO {
             }
             sprinkler.setWateringDuration(rs.getInt("watering_duration"));
             return sprinkler;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartSprinkler> findAllByUser(String userId) {
+    public List<SmartSprinkler> findAllByUser(String user_id) {
         String sql = """
             SELECT id, name, is_on, watering_duration
             FROM smart_sprinkler
@@ -61,10 +61,10 @@ public class SmartSprinklerDAO {
             }
             sprinkler.setWateringDuration(rs.getInt("watering_duration"));
             return sprinkler;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartSprinkler sprinkler, String userId) {
+    public void update(SmartSprinkler sprinkler, String user_id) {
         String sql = """
             UPDATE smart_sprinkler
             SET name = ?, is_on = ?, watering_duration = ?
@@ -75,12 +75,12 @@ public class SmartSprinklerDAO {
                 sprinkler.isOn(),
                 sprinkler.getWateringDuration(),
                 sprinkler.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_sprinkler WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

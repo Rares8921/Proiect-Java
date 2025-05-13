@@ -19,32 +19,32 @@ public class SmartPlugService {
         thingsBoardService = tbService;
     }
 
-    public SmartPlug getSmartPlug(String id, String userId) {
-        return plugDAO.findById(id, userId);
+    public SmartPlug getSmartPlug(String id, String user_id) {
+        return plugDAO.findById(id, user_id);
     }
 
-    public List<SmartPlug> getAllSmartPlugs(String userId) {
-        return plugDAO.findAllByUser(userId);
+    public List<SmartPlug> getAllSmartPlugs(String user_id) {
+        return plugDAO.findAllByUser(user_id);
     }
 
-    public void addSmartPlug(SmartPlug plug, String userId) {
-        plugDAO.save(plug, userId);
+    public void addSmartPlug(SmartPlug plug, String user_id) {
+        plugDAO.save(plug, user_id);
         updateTelemetry(plug);
     }
 
-    public void deleteSmartPlug(String id, String userId) {
-        plugDAO.delete(id, userId);
+    public void deleteSmartPlug(String id, String user_id) {
+        plugDAO.delete(id, user_id);
     }
 
-    public void toggleSmartPlug(String id, String userId) {
-        SmartPlug plug = plugDAO.findById(id, userId);
+    public void toggleSmartPlug(String id, String user_id) {
+        SmartPlug plug = plugDAO.findById(id, user_id);
         plug.togglePower();
-        plugDAO.update(plug, userId);
+        plugDAO.update(plug, user_id);
         updateTelemetry(plug);
     }
 
-    public void updateSmartPlug(SmartPlug plug, String userId) {
-        plugDAO.update(plug, userId);
+    public void updateSmartPlug(SmartPlug plug, String user_id) {
+        plugDAO.update(plug, user_id);
         updateTelemetry(plug);
     }
 

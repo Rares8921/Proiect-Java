@@ -13,7 +13,7 @@ public class SmartLightDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartLight light, String userId) {
+    public void save(SmartLight light, String user_id) {
         String sql = """
             INSERT INTO smart_lights (id, name, is_on, brightness, color, user_id)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -24,11 +24,11 @@ public class SmartLightDAO {
                 light.isOn(),
                 light.getBrightness(),
                 light.getColor(),
-                userId
+                user_id
         );
     }
 
-    public SmartLight findById(String id, String userId) {
+    public SmartLight findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_on, brightness, color
             FROM smart_lights
@@ -43,10 +43,10 @@ public class SmartLightDAO {
             l.setBrightness(rs.getInt("brightness"));
             l.setColor(rs.getString("color"));
             return l;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartLight> findAll(String userId) {
+    public List<SmartLight> findAll(String user_id) {
         String sql = """
             SELECT id, name, is_on, brightness, color
             FROM smart_lights
@@ -61,10 +61,10 @@ public class SmartLightDAO {
             l.setBrightness(rs.getInt("brightness"));
             l.setColor(rs.getString("color"));
             return l;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartLight light, String userId) {
+    public void update(SmartLight light, String user_id) {
         String sql = """
             UPDATE smart_lights
             SET name = ?, is_on = ?, brightness = ?, color = ?
@@ -76,12 +76,12 @@ public class SmartLightDAO {
                 light.getBrightness(),
                 light.getColor(),
                 light.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_lights WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

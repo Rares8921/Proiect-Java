@@ -18,31 +18,31 @@ public class SmartAssistantService {
         hubDao = _hubDao;
     }
 
-    public SmartAssistant get(String id, String userId) {
-        return dao.findById(id, userId);
+    public SmartAssistant get(String id, String user_id) {
+        return dao.findById(id, user_id);
     }
 
-    public List<SmartAssistant> getAll(String userId) {
-        return dao.findAll(userId);
+    public List<SmartAssistant> getAll(String user_id) {
+        return dao.findAll(user_id);
     }
 
-    public void add(SmartAssistant assistant, String userId) {
-        dao.save(assistant, userId);
+    public void add(SmartAssistant assistant, String user_id) {
+        dao.save(assistant, user_id);
     }
 
-    public void delete(String id, String userId) {
-        dao.delete(id, userId);
+    public void delete(String id, String user_id) {
+        dao.delete(id, user_id);
     }
 
-    public void update(SmartAssistant assistant, String userId) {
-        dao.update(assistant, userId);
+    public void update(SmartAssistant assistant, String user_id) {
+        dao.update(assistant, user_id);
     }
 
-    public void processVoiceCommand(String assistantId, String command, String userId) {
-        SmartAssistant assistant = dao.findById(assistantId, userId);
-        SmartHub hub = hubDao.findById(assistant.getHubId(), userId);
+    public void processVoiceCommand(String assistantId, String command, String user_id) {
+        SmartAssistant assistant = dao.findById(assistantId, user_id);
+        SmartHub hub = hubDao.findById(assistant.getHubId(), user_id);
         assistant.processVoiceCommand(command, hub);
-        dao.update(assistant, userId);
+        dao.update(assistant, user_id);
     }
 
 }

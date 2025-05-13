@@ -13,7 +13,7 @@ public class SmartPlugDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void save(SmartPlug plug, String userId) {
+    public void save(SmartPlug plug, String user_id) {
         String sql = """
             INSERT INTO smart_plug (id, name, is_on, current_consumption, user_id)
             VALUES (?, ?, ?, ?, ?)
@@ -23,11 +23,11 @@ public class SmartPlugDAO {
                 plug.getName(),
                 plug.isOn(),
                 plug.getCurrentConsumption(),
-                userId
+                user_id
         );
     }
 
-    public SmartPlug findById(String id, String userId) {
+    public SmartPlug findById(String id, String user_id) {
         String sql = """
             SELECT id, name, is_on, current_consumption
             FROM smart_plug
@@ -43,10 +43,10 @@ public class SmartPlugDAO {
             }
             plug.setCurrentConsumption(rs.getDouble("current_consumption"));
             return plug;
-        }, id, userId);
+        }, id, user_id);
     }
 
-    public List<SmartPlug> findAllByUser(String userId) {
+    public List<SmartPlug> findAllByUser(String user_id) {
         String sql = """
             SELECT id, name, is_on, current_consumption
             FROM smart_plug
@@ -62,10 +62,10 @@ public class SmartPlugDAO {
             }
             plug.setCurrentConsumption(rs.getDouble("current_consumption"));
             return plug;
-        }, userId);
+        }, user_id);
     }
 
-    public void update(SmartPlug plug, String userId) {
+    public void update(SmartPlug plug, String user_id) {
         String sql = """
             UPDATE smart_plug
             SET name = ?, is_on = ?, current_consumption = ?
@@ -76,12 +76,12 @@ public class SmartPlugDAO {
                 plug.isOn(),
                 plug.getCurrentConsumption(),
                 plug.getId(),
-                userId
+                user_id
         );
     }
 
-    public void delete(String id, String userId) {
+    public void delete(String id, String user_id) {
         String sql = "DELETE FROM smart_plug WHERE id = ? AND user_id = ?";
-        jdbcTemplate.update(sql, id, userId);
+        jdbcTemplate.update(sql, id, user_id);
     }
 }

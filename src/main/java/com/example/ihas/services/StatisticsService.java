@@ -13,36 +13,36 @@ public class StatisticsService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Map<String, Object> getStatistics(String userId) {
+    public Map<String, Object> getStatistics(String user_id) {
         Map<String, Object> stats = new HashMap<>();
 
-        int thermostatTotal = count("smart_thermostat", userId);
-        int lightTotal = count("smart_lights", userId);
-        int ovenTotal = count("smart_oven", userId);
-        int alarmTotal = count("smart_alarm_system", userId);
-        int assistantTotal = count("smart_assistant", userId);
-        int hubTotal = count("smart_hub", userId);
-        int doorLockTotal = count("smart_door_lock", userId);
-        int plugTotal = count("smart_plug", userId);
-        int carChargerTotal = count("smart_car_charger", userId);
-        int cameraTotal = count("smart_camera", userId);
-        int curtainTotal = count("smart_curtains", userId);
-        int fridgeTotal = count("smart_refrigerator", userId);
-        int sprinklerTotal = count("smart_sprinkler", userId);
-        int sensorTotal = count("smart_sensor", userId);
+        int thermostatTotal = count("smart_thermostat", user_id);
+        int lightTotal = count("smart_lights", user_id);
+        int ovenTotal = count("smart_oven", user_id);
+        int alarmTotal = count("smart_alarm_system", user_id);
+        int assistantTotal = count("smart_assistant", user_id);
+        int hubTotal = count("smart_hub", user_id);
+        int doorLockTotal = count("smart_door_lock", user_id);
+        int plugTotal = count("smart_plug", user_id);
+        int carChargerTotal = count("smart_car_charger", user_id);
+        int cameraTotal = count("smart_camera", user_id);
+        int curtainTotal = count("smart_curtains", user_id);
+        int fridgeTotal = count("smart_refrigerator", user_id);
+        int sprinklerTotal = count("smart_sprinkler", user_id);
+        int sensorTotal = count("smart_sensor", user_id);
 
         int totalDevices = thermostatTotal + lightTotal + ovenTotal + alarmTotal + assistantTotal + hubTotal +
                 doorLockTotal + plugTotal + carChargerTotal + cameraTotal + curtainTotal + fridgeTotal + sprinklerTotal + sensorTotal;
 
-        int thermostatOnline = countOnline("smart_thermostat", "is_on", userId);
-        int lightOnline = countOnline("smart_lights", "is_on", userId);
-        int ovenOnline = countOnline("smart_oven", "is_on", userId);
-        int alarmOnline = countOnline("smart_alarm_system", "is_armed", userId);
-        int doorLockOnline = countOnline("smart_door_lock", "locked", userId);
-        int plugOnline = countOnline("smart_plug", "is_on", userId);
-        int chargerOnline = countOnline("smart_car_charger", "is_charging", userId);
-        int cameraOnline = countOnline("smart_camera", "is_recording", userId);
-        int sprinklerOnline = countOnline("smart_sprinkler", "is_on", userId);
+        int thermostatOnline = countOnline("smart_thermostat", "is_on", user_id);
+        int lightOnline = countOnline("smart_lights", "is_on", user_id);
+        int ovenOnline = countOnline("smart_oven", "is_on", user_id);
+        int alarmOnline = countOnline("smart_alarm_system", "is_armed", user_id);
+        int doorLockOnline = countOnline("smart_door_lock", "locked", user_id);
+        int plugOnline = countOnline("smart_plug", "is_on", user_id);
+        int chargerOnline = countOnline("smart_car_charger", "is_charging", user_id);
+        int cameraOnline = countOnline("smart_camera", "is_recording", user_id);
+        int sprinklerOnline = countOnline("smart_sprinkler", "is_on", user_id);
 
         int onlineDevices = thermostatOnline + lightOnline + ovenOnline + alarmOnline +
                 plugOnline + chargerOnline + cameraOnline + sprinklerOnline + assistantTotal + hubTotal;
@@ -53,13 +53,13 @@ public class StatisticsService {
         return stats;
     }
 
-    private int count(String table, String userId) {
+    private int count(String table, String user_id) {
         String sql = "SELECT COUNT(*) FROM " + table + " WHERE user_id = ?";
-        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return jdbcTemplate.queryForObject(sql, Integer.class, user_id);
     }
 
-    private int countOnline(String table, String column, String userId) {
+    private int countOnline(String table, String column, String user_id) {
         String sql = "SELECT COUNT(*) FROM " + table + " WHERE " + column + " = true AND user_id = ?";
-        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return jdbcTemplate.queryForObject(sql, Integer.class, user_id);
     }
 }
