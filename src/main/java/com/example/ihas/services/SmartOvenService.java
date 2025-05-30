@@ -3,6 +3,7 @@ package com.example.ihas.services;
 import com.example.ihas.dao.SmartOvenDAO;
 import com.example.ihas.devices.SmartOven;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,13 +80,16 @@ public class SmartOvenService {
         ovenDAO.update(oven, user_id);
     }
 
-
     private void updateTelemetry(SmartOven oven) {
-        Map<String, Object> telemetry = new HashMap<>();
-        telemetry.put("isOn", oven.isOnline());
-        telemetry.put("temperature", oven.getTemperature());
-        telemetry.put("timer", oven.getTimer());
-        telemetry.put("preheat", oven.isPreheat());
-        thingsBoardService.updateTelemetry(thingsBoardBaseUrl, oven.getId(), telemetry);
+        try {
+            Map<String, Object> telemetry = new HashMap<>();
+            telemetry.put("isOn", oven.isOnline());
+            telemetry.put("temperature", oven.getTemperature());
+            telemetry.put("timer", oven.getTimer());
+            telemetry.put("preheat", oven.isPreheat());
+            thingsBoardService.updateTelemetry(thingsBoardBaseUrl, oven.getId(), telemetry);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + oven.getId());
+        }
     }
 }

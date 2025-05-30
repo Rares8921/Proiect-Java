@@ -1,46 +1,56 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Light Management</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/light_management.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Light Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/light_management.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Light Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add Smart Light</h3>
-<input id="newId" placeholder="ID (token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing Smart Lights</h3>
-<table id="lightTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Power</th>
-<th>Brightness</th>
-<th>Color</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<!-- Rows will be generated here -->
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<main class="container">
+    <h2>Smart Light Management</h2>
+    <div id="message"></div>
+
+    <h3>Add Smart Light</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (token value)" required />
+        <input id="newName" type="text" placeholder="Name" required />
+        <button id="addBtn">Add</button>
+    </div>
+
+    <h3>Existing Smart Lights</h3>
+    <table id="lightTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Power</th>
+            <th>Brightness</th>
+            <th>Color</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/light_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

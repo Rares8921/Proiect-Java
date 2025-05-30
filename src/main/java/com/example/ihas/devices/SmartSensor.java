@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class SmartSensor implements SmartDevice {
-    public enum SensorType { MOTION, TEMPERATURE, HUMIDITY, SMOKE }
+    public enum SensorType {
+        MOTION, TEMPERATURE, HUMIDITY, SMOKE, LIGHT, GAS, WATERLEAK, DOOR, WINDOW, SOUND
+    }
 
     private final String id;
     private final String name;

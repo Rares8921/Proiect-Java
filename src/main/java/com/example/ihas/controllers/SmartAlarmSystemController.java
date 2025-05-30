@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartAlarmSystem;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartAlarmSystemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class SmartAlarmSystemController {
 
     private final SmartAlarmSystemService alarmService;
+
+    @Autowired
+    private AuditService auditService;
 
     public SmartAlarmSystemController(SmartAlarmSystemService service) {
         alarmService = service;
@@ -45,6 +50,7 @@ public class SmartAlarmSystemController {
             SmartAlarmSystem alarm = alarmService.get(id, user_id);
             Map<String, Object> result = mapping(alarm);
             result.put("eventLog", alarm.getEventLog());
+            auditService.log(String.format("User %s viewed alarm system %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -59,6 +65,7 @@ public class SmartAlarmSystemController {
             String user_id = auth.getName();
             SmartAlarmSystem alarm = new SmartAlarmSystem(id, name);
             alarmService.add(alarm, user_id);
+            auditService.log(String.format("User %s added alarm system %s", user_id, id));
             return ResponseEntity.ok("Alarm system added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -70,6 +77,7 @@ public class SmartAlarmSystemController {
         try {
             String user_id = auth.getName();
             alarmService.delete(id, user_id);
+            auditService.log(String.format("User %s deleted alarm system %s", user_id, id));
             return ResponseEntity.ok("Alarm system deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -81,6 +89,7 @@ public class SmartAlarmSystemController {
         try {
             String user_id = auth.getName();
             alarmService.armAlarmSystem(id, user_id);
+            auditService.log(String.format("User %s armed alarm system %s", user_id, id));
             return ResponseEntity.ok("Alarm armed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error arming alarm: " + e.getMessage());
@@ -92,6 +101,7 @@ public class SmartAlarmSystemController {
         try {
             String user_id = auth.getName();
             alarmService.disarmAlarmSystem(id, user_id);
+            auditService.log(String.format("User %s disarmed alarm system %s", user_id, id));
             return ResponseEntity.ok("Alarm disarmed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error disarming alarm: " + e.getMessage());
@@ -103,6 +113,7 @@ public class SmartAlarmSystemController {
         try {
             String user_id = auth.getName();
             alarmService.triggerAlarm(id, user_id);
+            auditService.log(String.format("User %s triggered alarm system %s", user_id, id));
             return ResponseEntity.ok("Alarm triggered");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error triggering alarm: " + e.getMessage());

@@ -1,46 +1,79 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Car Charger Management</title>
+    <script>
+        (function () {
+            document.documentElement.className = localStorage.getItem('theme') || 'light';
+        })();
+    </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/carcharger_management.css}"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Car Charger Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/carcharger_management.css}" />
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
-<div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Car Charger Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add Car Charger</h3>
-<input id="newId" placeholder="ID (Token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing Car Chargers</h3>
-<table id="chargerTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Charging</th>
-<th>Current (A)</th>
-<th>Voltage (V)</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<!-- JS -->
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<body class="light">
+<div th:replace="~{fragments :: headerFrag}"></div>
+
+<main class="container">
+    <h2>Smart Car Charger Management</h2>
+    <div id="message"></div>
+
+    <h3>Add Car Charger</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (Token value)" required />
+        <input id="newName" type="text" placeholder="Name" required />
+
+        <div class="row-inputs">
+            <div class="input-group">
+                <label for="newCurrent">Current (A)</label>
+                <div class="number-input">
+                    <button onclick="changeCurrent(-1)" type="button"></button>
+                    <input id="newCurrent" type="number" min="0" max="100" value="10" oninput="validateCurrent(this)" required />
+                    <button onclick="changeCurrent(1)" type="button"></button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="newVoltage">Voltage (V)</label>
+                <div class="number-input">
+                    <button onclick="changeVoltage(-1)" type="button"></button>
+                    <input id="newVoltage" type="number" min="0" max="500" value="220" oninput="validateVoltage(this)" required />
+                    <button onclick="changeVoltage(1)" type="button"></button>
+                </div>
+            </div>
+        </div>
+
+        <button id="addBtn">Add</button>
+    </div>
+
+    <h3>Existing Car Chargers</h3>
+    <table id="chargerTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Current (A)</th>
+            <th>Voltage (V)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to Dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/carcharger_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

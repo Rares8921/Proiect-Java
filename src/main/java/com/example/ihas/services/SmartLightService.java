@@ -61,10 +61,14 @@ public class SmartLightService {
 
 
     private void updateTelemetry(SmartLight l) {
-        Map<String, Object> t = new HashMap<>();
-        t.put("isOn", l.isOn());
-        t.put("brightness", l.getBrightness());
-        t.put("color", l.getColor());
-        tbService.updateTelemetry(baseUrl, l.getId(), t);
+        try {
+            Map<String, Object> t = new HashMap<>();
+            t.put("isOn", l.isOn());
+            t.put("brightness", l.getBrightness());
+            t.put("color", l.getColor());
+            tbService.updateTelemetry(baseUrl, l.getId(), t);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + l.getId());
+        }
     }
 }

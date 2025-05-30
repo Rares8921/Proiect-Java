@@ -1,7 +1,10 @@
 package com.example.ihas.services;
 
 import com.example.ihas.dao.SmartRefrigeratorDAO;
+import com.example.ihas.dao.SmartRefrigeratorItemDAO;
 import com.example.ihas.devices.SmartRefrigerator;
+import com.example.ihas.devices.SmartRefrigeratorItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,6 +15,9 @@ import java.util.Map;
 public class SmartRefrigeratorService {
 
     private final SmartRefrigeratorDAO dao;
+
+    @Autowired
+    private SmartRefrigeratorItemDAO itemDAO;
 
     public SmartRefrigeratorService(SmartRefrigeratorDAO _dao) {
         dao = _dao;
@@ -63,11 +69,12 @@ public class SmartRefrigeratorService {
         dao.update(ref, user_id);
     }
 
-    public String checkExpiredItems(String id, String user_id) {
-        SmartRefrigerator ref = dao.findById(id, user_id);
-        List<String> expired = ref.getInventory().entrySet().stream()
-                .filter(entry -> entry.getKey().isBefore(LocalDate.now()))
-                .flatMap(entry -> entry.getValue().stream())
+    public String checkExpiredItems(String refrigeratorId, String userId) {
+        List<SmartRefrigeratorItem> items = itemDAO.findByRefrigeratorId(refrigeratorId);
+
+        List<String> expired = items.stream()
+                .filter(i -> i.getExpiryDate().isBefore(LocalDate.now()))
+                .map(SmartRefrigeratorItem::getName)
                 .toList();
 
         if (expired.isEmpty()) {
@@ -75,6 +82,27 @@ public class SmartRefrigeratorService {
         } else {
             return "Expired items: " + String.join(", ", expired);
         }
+    }
+
+    public List<SmartRefrigeratorItem> getItems(String refrigeratorId) {
+        return itemDAO.findByRefrigeratorId(refrigeratorId);
+    }
+
+    public void addItem(String refrigeratorId, String name, LocalDate expiryDate) {
+        System.out.println(">> Saving item: " + name + ", " + expiryDate + ", fridge=" + refrigeratorId);
+        SmartRefrigeratorItem item = new SmartRefrigeratorItem();
+        item.setName(name);
+        item.setExpiryDate(expiryDate);
+        item.setRefrigeratorId(refrigeratorId);
+        itemDAO.save(item);
+    }
+
+    public void deleteItem(Long itemId) {
+        itemDAO.deleteById(itemId);
+    }
+
+    public void deleteExpiredItems(String refrigeratorId) {
+        itemDAO.deleteExpired(refrigeratorId);
     }
 
 }

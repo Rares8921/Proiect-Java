@@ -21,7 +21,7 @@ async function loadCameras() {
         <td>${cam.resolution}</td>
         <td>${cam.detectionSensitivity}</td>
         <td>
-          <button onclick="deleteCamera('${cam.id}')">Delete</button>
+          <button onclick="deleteCamera('${cam.id}')" class="delete">Delete</button>
           <button onclick="controlCamera('${cam.id}')">Control</button>
         </td>
       `
@@ -75,6 +75,19 @@ async function deleteCamera(id) {
   } catch (e) {
     document.getElementById("message").textContent = "Error deleting camera: " + e.message
   }
+}
+
+function changeSensitivity(step) {
+  const input = document.getElementById("newSensitivity");
+  let val = parseInt(input.value) || 5;
+  val = Math.max(1, Math.min(10, val + step));
+  input.value = val;
+}
+
+function validateSensitivity(input) {
+  let val = parseInt(input.value);
+  if (isNaN(val)) input.value = '';
+  else input.value = Math.max(1, Math.min(10, val));
 }
 
 function controlCamera(id) {

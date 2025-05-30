@@ -23,7 +23,7 @@ async function loadLights() {
         <td>
           <button onclick="toggleLight('${light.id}')">Toggle</button>
           <button onclick="controlLight('${light.id}')">Control</button>
-          <button onclick="deleteLight('${light.id}')">Delete</button>
+          <button onclick="deleteLight('${light.id}')" class="delete">Delete</button>
         </td>
       `
       tbody.appendChild(tr)

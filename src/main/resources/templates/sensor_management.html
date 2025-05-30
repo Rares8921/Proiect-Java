@@ -1,46 +1,68 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Sensor Management</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/sensor_management.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sensor_management.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Sensor Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add Sensor</h3>
-<input id="newId" placeholder="ID (Token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<input id="newType" placeholder="Type (MOTION, TEMPERATURE, HUMIDITY, SMOKE)" required="" type="text"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing Sensors</h3>
-<table id="sensorTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Type</th>
-<th>Last Reading</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<!-- JS -->
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<main class="container">
+    <h2>Sensor Management</h2>
+    <div id="message"></div>
+
+    <h3>Add Sensor</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (Token value)" required />
+        <input id="newName" type="text" placeholder="Name" required />
+        <select id="newType" required>
+            <option value="" disabled selected>Select Sensor Type</option>
+            <option value="MOTION">Motion</option>
+            <option value="TEMPERATURE">Temperature</option>
+            <option value="HUMIDITY">Humidity</option>
+            <option value="LIGHT">Light</option>
+            <option value="GAS">Gas</option>
+            <option value="SMOKE">Smoke</option>
+            <option value="WATER_LEAK">Water Leak</option>
+            <option value="DOOR">Door</option>
+            <option value="WINDOW">Window</option>
+            <option value="SOUND">Sound</option>
+        </select>
+        <button id="addBtn">Add</button>
+    </div>
+
+    <h3>Existing Sensors</h3>
+    <table id="sensorTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Last Reading</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/sensor_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

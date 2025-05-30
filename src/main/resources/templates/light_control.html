@@ -1,44 +1,71 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Light Control</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/light_control.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Light Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/light_control.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Light Control</h2>
-<div class="status">
-<div>ID: <span id="lightId"></span></div>
-<div>Name: <span id="lightName"></span></div>
-<div>Power: <span id="powerStatus"></span></div>
-<div>Brightness: <span id="brightness"></span></div>
-<div>Color: <span id="color"></span></div>
-</div>
-<div>
-<label for="brightnessInput">Set Brightness (0-100):</label>
-<input id="brightnessInput" max="100" min="0" type="number"/>
-<button onclick="updateBrightness()">Update Brightness</button>
-</div>
-<div>
-<label for="colorInput">Set Color (HEX):</label>
-<input id="colorInput" placeholder="#FFFFFF" type="text"/>
-<button onclick="updateColor()">Update Color</button>
-</div>
-<div style="text-align: center;">
-<button onclick="toggleLight()">Toggle Power</button>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
 
+<main class="container">
+    <h2>Smart Light Control</h2>
+    <div class="status">
+        <div>ID: <span id="lightId"></span></div>
+        <div>Name: <span id="lightName"></span></div>
+        <div>Power: <span id="powerStatus"></span></div>
+        <div>Brightness: <span id="brightness"></span></div>
+        <div>Color: <span id="color"></span></div>
+    </div>
+    <div class="command-section brightness-control">
+        <label for="brightnessInput">Set Brightness (0–100):</label>
+        <div class="number-input">
+            <button type="button" class="plus" onclick="changeBrightness(-1)">
+            </button>
+
+            <div class="brightness-wrapper">
+                <input
+                        id="brightnessInput"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value="50"
+                        oninput="validateBrightness(this)"
+                />
+                <span class="unit">%</span>
+            </div>
+
+            <button type="button" class="minus" onclick="changeBrightness(1)">
+            </button>
+        </div>
+
+        <button class="primary" onclick="updateBrightness()">Update Brightness</button>
+    </div>
+    <div class="command-section">
+        <label for="colorInput">Set Color (HEX):</label>
+        <input id="colorInput" type="text" placeholder="#FFFFFF"/>
+        <button class="primary" onclick="updateColor()">Update Color</button>
+    </div>
+    <div class="controls">
+        <button class="primary" onclick="toggleLight()">Toggle Power</button>
+    </div>
+    <div id="message"></div>
+    <button class="secondary" onclick="goBack()">Back to Management</button>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/light_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

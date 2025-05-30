@@ -24,7 +24,7 @@ async function loadOvens() {
         <td>
           <button onclick="toggleOven('${oven.id}')">Toggle</button>
           <button onclick="controlOven('${oven.id}')">Control</button>
-          <button onclick="deleteOven('${oven.id}')">Delete</button>
+          <button onclick="deleteOven('${oven.id}')" class="delete">Delete</button>
         </td>
       `
       tbody.appendChild(tr)
@@ -35,8 +35,24 @@ async function loadOvens() {
 }
 
 async function addOven() {
-  const id = document.getElementById("newId").value
-  const name = document.getElementById("newName").value
+  const id = document.getElementById("newId").value.trim()
+  const name = document.getElementById("newName").value.trim()
+  const temperature = parseFloat(document.getElementById("newTemperature").value)
+
+  if (!id || !name || isNaN(temperature)) {
+    document.getElementById("message").textContent = "Please enter all fields"
+    return
+  }
+
+  const oven = {
+    id,
+    name,
+    isOn: false,
+    temperature,
+    timer: 0,
+    preheat: false
+  }
+
   try {
     const resp = await fetch(API_BASE, {
       method: "POST",
@@ -44,7 +60,7 @@ async function addOven() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ id, name }),
+      body: JSON.stringify(oven),
     })
     const msg = await resp.text()
     document.getElementById("message").textContent = msg
@@ -82,6 +98,26 @@ function toggleOven(id) {
       document.getElementById("message").textContent = "Error toggling oven: " + err
     })
 }
+
+function changeTemp(step, inputId) {
+  const input = document.getElementById(inputId)
+  let value = parseFloat(input.value)
+  if (isNaN(value)) value = 0
+  let newValue = value + step
+  newValue = Math.max(50, Math.min(300, newValue))
+  input.value = newValue
+}
+
+function validateTemp(input) {
+  let value = parseFloat(input.value)
+  if (isNaN(value)) {
+    input.value = ''
+    return
+  }
+  value = Math.max(50, Math.min(300, value))
+  input.value = value
+}
+
 
 function controlOven(id) {
   window.location.href = `/oven_control.html?id=${id}`

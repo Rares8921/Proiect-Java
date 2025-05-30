@@ -1,51 +1,87 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Refrigerator Control</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/refrigerator_control.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refrigerator Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/refrigerator_control.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Refrigerator Control</h2>
-<div class="status">
-<div>ID: <span id="refId"></span></div>
-<div>Name: <span id="refName"></span></div>
-<div>Temperature: <span id="currentTemp"></span>°C</div>
-<div>Door: <span id="doorStatus"></span></div>
-<div>Inventory: <span id="inventory"></span></div>
-</div>
-<div>
-<label for="tempInput">Set Temperature (°C):</label>
-<input id="tempInput" max="10" min="-5" step="0.5" type="number"/>
-<button onclick="updateTemperature()">Update Temperature</button>
-</div>
-<div>
-<button onclick="toggleDoor()">Toggle Door</button>
-</div>
-<div>
-<h3>Manage Inventory</h3>
-<label for="itemName">Item Name:</label>
-<input id="itemName" type="text"/>
-<label for="expiryDate">Expiry Date (YYYY-MM-DD):</label>
-<input id="expiryDate" type="text"/>
-<button onclick="addItem()">Add Item</button>
-<button onclick="removeItem()">Remove Item</button>
-</div>
-<div>
-<button onclick="checkExpired()">Check Expired Items</button>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
 
+<main class="container">
+    <h2>Refrigerator Control</h2>
+    <div class="status">
+        <div>ID: <span id="refId"></span></div>
+        <div>Name: <span id="refName"></span></div>
+        <div>Temperature: <span id="currentTemp"></span>°C</div>
+        <div>Door: <span id="doorStatus"></span></div>
+        <div>Inventory: <span id="inventory"></span></div>
+    </div>
+
+    <div class="command-section temp-control">
+        <label for="tempInput">Set Temperature (°C):</label>
+        <div class="number-input">
+            <button type="button" class="plus" onclick="changeTemp(-0.5)">
+            </button>
+            <div class="temp-wrapper">
+                <input
+                        id="tempInput"
+                        type="number"
+                        min="-5"
+                        max="10"
+                        step="0.5"
+                        value="0"
+                        oninput="validateTemp(this)"
+                        placeholder="0"
+                />
+                <span class="unit">°C</span>
+            </div>
+            <button type="button" class="minus" onclick="changeTemp(0.5)">
+            </button>
+        </div>
+        <button class="primary" onclick="updateTemperature()">Update Temperature</button>
+    </div>
+
+
+    <div class="controls">
+        <button class="primary" onclick="toggleDoor()">Toggle Door</button>
+    </div>
+
+    <div class="inventory-list">
+        <h3>Inventory</h3>
+        <ul id="inventoryItems"></ul>
+    </div>
+
+    <div class="command-section">
+        <h3>Add Inventory Item</h3>
+        <label for="itemName">Item Name:</label>
+        <input id="itemName" type="text"/>
+        <label for="expiryDate">Expiry Date:</label>
+        <input id="expiryDate" type="date"/>
+        <button class="primary" onclick="addItem()">Add Item</button>
+        <button class="primary" onclick="removeExpiredItems()">Remove All Expired</button>
+    </div>
+
+    <div class="controls">
+        <button class="primary" onclick="checkExpired()">Check Expired Items</button>
+    </div>
+
+    <div id="message"></div>
+    <button class="secondary" onclick="goBack()">Back to Management</button>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/refrigerator_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

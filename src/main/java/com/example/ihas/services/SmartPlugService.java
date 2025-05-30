@@ -28,6 +28,7 @@ public class SmartPlugService {
     }
 
     public void addSmartPlug(SmartPlug plug, String user_id) {
+        plug.setUserId(user_id);
         plugDAO.save(plug, user_id);
         updateTelemetry(plug);
     }
@@ -52,6 +53,12 @@ public class SmartPlugService {
         Map<String, Object> telemetry = new HashMap<>();
         telemetry.put("isOn", plug.isOn());
         telemetry.put("currentConsumption", plug.getCurrentConsumption());
-        thingsBoardService.updateTelemetry(thingsBoardBaseUrl, plug.getId(), telemetry);
+
+        try {
+            thingsBoardService.updateTelemetry(thingsBoardBaseUrl, plug.getId(), telemetry);
+        } catch (Exception e) {
+            System.err.println("ThingsBoard telemetry failed: " + e.getMessage());
+        }
     }
+
 }

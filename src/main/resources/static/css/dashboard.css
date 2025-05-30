@@ -1,109 +1,230 @@
+:root {
+    --bg-light: #f6fbf8;
+    --bg-dark: #101914;
+    --text-light: #1d2a1d;
+    --text-dark: #d9fbe4;
+    --primary: #45c07a;
+    --primary-dark: #2d8a5a;
+    --accent: #ff6b6b;
+    --card-light: #ffffff;
+    --card-dark: #1a2b23;
+    --shadow: rgba(0, 0, 0, 0.15);
+}
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom right, #f2f2f2, #e8e8e8);
+html, body {
+    height: 100%;
     margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+html.dark {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+html.dark body {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
 }
 
 header {
-    background: linear-gradient(to right, #007BFF, #0056b3);
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
     color: #fff;
-    padding: 20px 30px;
+    padding: 24px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 12px var(--shadow);
+    z-index: 999;
+    transition: background 0.4s ease;
+}
+
+html.dark header {
+    background: linear-gradient(to right, #2a7752, #1d5d3d);
 }
 
 header h1 {
-    margin: 0;
-    font-size: 1.8em;
-    font-weight: 500;
+    font-size: 2em;
+    font-weight: 600;
 }
 
 header button {
     background: #fff;
-    color: #007BFF;
+    color: var(--primary);
     border: none;
-    padding: 10px 15px;
-    font-size: 1em;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 header button:hover {
-    background: #007BFF;
+    background: var(--primary);
     color: #fff;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 30px auto;
-    max-width: 1200px;
-}
-
-.card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    margin: 15px;
-    padding: 20px;
-    width: 220px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-.card h3 {
-    margin: 0 0 15px;
-    font-size: 1.2em;
-    color: #333;
-}
-
-.card a {
-    text-decoration: none;
-    background: #007BFF;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-top: 15px;
-    transition: background 0.3s;
-}
-
-.card a:hover {
-    background: #0056b3;
-}
-
-.stats {
-    margin: 20px auto;
-    text-align: center;
-    max-width: 800px;
-}
-
-.stats h2 {
-    margin-bottom: 10px;
-    font-size: 1.6em;
-    color: #333;
-    font-weight: 400;
 }
 
 footer {
-    background: #0056b3;
+    background: linear-gradient(to right, var(--primary-dark), var(--primary));
     color: #fff;
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: background 0.4s ease;
+}
+
+html.dark footer {
+    background: linear-gradient(to right, #1d5d3d, #2a7752);
 }
 
 footer p {
-    margin: 0;
-    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+main.dashboard {
+    flex: 1;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.intro h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.intro p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+}
+
+html.dark .intro p {
+    color: var(--text-dark);
+}
+
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 3rem 1rem 1rem;
+    color: var(--primary);
+    text-align: left;
+}
+
+.cards-section {
+    width: 100%;
+    max-width: 1300px;
+    margin: auto;
+    padding: 0 1rem;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.card {
+    background: var(--card-light);
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 10px 20px var(--shadow);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+html.dark .card {
+    background: var(--card-dark);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.05), transparent);
+    transform: rotate(25deg);
+    z-index: 0;
+}
+
+.card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.card a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.card a:hover {
+    background: var(--primary-dark);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.stats {
+    margin-top: 4rem;
+    text-align: center;
+    max-width: 600px;
+    background: rgba(0,0,0,0.03);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px var(--shadow);
+    transition: background 0.4s ease;
+}
+
+html.dark .stats {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-dark);
+}
+
+.glass {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+html.dark .glass {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-dark);
 }

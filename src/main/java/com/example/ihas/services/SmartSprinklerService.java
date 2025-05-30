@@ -51,10 +51,13 @@ public class SmartSprinklerService {
         SmartSprinkler sprinkler = dao.findById(id, user_id);
         sprinkler.setWateringDuration(duration);
         dao.update(sprinkler, user_id);
-
-        Map<String, Object> telemetry = new HashMap<>();
-        telemetry.put("wateringDuration", duration);
-        thingsBoardService.updateTelemetry("https://eu.thingsboard.cloud/api/v1/", id, telemetry);
+        try {
+            Map<String, Object> telemetry = new HashMap<>();
+            telemetry.put("wateringDuration", duration);
+            thingsBoardService.updateTelemetry("https://eu.thingsboard.cloud/api/v1/", id, telemetry);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + sprinkler.getId());
+        }
     }
 
 }

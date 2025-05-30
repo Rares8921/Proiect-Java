@@ -18,6 +18,9 @@ public final class SmartPlug implements SmartDevice {
     @Getter
     private final List<String> eventLog;
 
+    @Getter @Setter
+    private String userId;
+
     public SmartPlug(String _id, String _name) {
         id = _id;
         name = _name;

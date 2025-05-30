@@ -1,53 +1,60 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Thermostat Control</title>
-
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/thermostat_control.css}"/>
+    <script>
+        (function() {
+            document.documentElement.className = localStorage.getItem('theme') || 'light';
+        })();
+    </script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Thermostat Control</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/thermostat_control.css"/>
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
 
 <main>
-<div class="container">
-<h2>Thermostat Control</h2>
-<div class="status">
-<div>ID: <span id="thermoId"></span></div>
-<div>Name: <span id="thermoName"></span></div>
-<div>Power: <span id="powerStatus"></span></div>
-<div>Mode: <span id="modeLabel"></span></div>
-<div>Current Temp: <span id="currentTemp"></span>°C</div>
-</div>
-<div class="slider-container">
-<label for="tempSlider">Set Target Temp:</label><br/>
-<input id="tempSlider" max="30" min="15" type="range" value="22"/>
-<div>Target Temp: <span id="targetTemp">22</span>°C</div>
-</div>
-<div class="mode-buttons">
-<button class="mode-cool" onclick="updateMode('COOL')">COOL</button>
-<button class="mode-heat" onclick="updateMode('HEAT')">HEAT</button>
-<button class="mode-off" onclick="updateMode('OFF')">OFF</button>
-<button class="mode-auto" onclick="updateMode('AUTO')">AUTO</button>
-</div>
-<div style="text-align:center;">
-<button onclick="togglePower()">Toggle Power</button>
-</div>
-<div style="text-align:center; margin:10px 0;">
-<label for="ambientInput">Ambient Temp:</label>
-<input id="ambientInput" step="0.5" style="width:60px" type="number" value="25"/>
-<button onclick="autoAdjust()">Auto Adjust</button>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
+    <div class="container">
+        <h2>Thermostat Control</h2>
+        <div class="status">
+            <div>ID: <span id="thermoId"></span></div>
+            <div>Name: <span id="thermoName"></span></div>
+            <div>Power: <span id="powerStatus"></span></div>
+            <div>Mode: <span id="modeLabel"></span></div>
+            <div>Current Temp: <span id="currentTemp"></span>°C</div>
+        </div>
+
+        <div class="slider-container">
+            <label for="tempSlider">Set Target Temp:</label><br/>
+            <input id="tempSlider" type="range" min="15" max="30" value="22"/>
+            <div>Target Temp: <span id="targetTemp">22</span>°C</div>
+        </div>
+
+        <div class="mode-buttons">
+            <button class="mode-cool" onclick="updateMode('COOL')">COOL</button>
+            <button class="mode-heat" onclick="updateMode('HEAT')">HEAT</button>
+            <button class="mode-off" onclick="updateMode('OFF')">OFF</button>
+            <button class="mode-auto" onclick="updateMode('AUTO')">AUTO</button>
+        </div>
+
+        <div class="centered">
+            <button class="primary" onclick="togglePower()">Toggle Power</button>
+        </div>
+
+        <div class="centered">
+            <button class="primary" onclick="autoAdjust()">Auto Adjust (Based on weather)</button>
+        </div>
+
+        <div id="message"></div>
+        <button class="secondary" onclick="goBack()">Back to Management</button>
+    </div>
 </main>
 
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/thermostat_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

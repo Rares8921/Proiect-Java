@@ -24,13 +24,13 @@ public class SmartThermostatDAO {
                 thermostat.isOn(),
                 thermostat.getTemperature(),
                 thermostat.getMode().name(),
-                user_id
+                thermostat.getUserId()
         );
     }
 
     public SmartThermostat findById(String id, String user_id) {
         String sql = """
-            SELECT id, name, is_on, temperature, mode
+            SELECT id, name, is_on, temperature, mode, user_id
             FROM smart_thermostat
             WHERE id = ? AND user_id = ?
         """;
@@ -45,13 +45,14 @@ public class SmartThermostatDAO {
             }
             st.setTemperature(rs.getDouble("temperature"));
             st.setMode(mode);
+            st.setUserId(rs.getString("user_id"));
             return st;
         }, id, user_id);
     }
 
     public List<SmartThermostat> findAllByUser(String user_id) {
         String sql = """
-            SELECT id, name, is_on, temperature, mode
+            SELECT id, name, is_on, temperature, mode, user_id
             FROM smart_thermostat
             WHERE user_id = ?
         """;
@@ -66,6 +67,7 @@ public class SmartThermostatDAO {
             }
             st.setTemperature(rs.getDouble("temperature"));
             st.setMode(mode);
+            st.setUserId(rs.getString("user_id"));
             return st;
         }, user_id);
     }

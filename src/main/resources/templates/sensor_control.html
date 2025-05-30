@@ -1,35 +1,61 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Sensor Control</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/sensor_control.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sensor_control.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Sensor Control</h2>
-<div class="status">
-<div>ID: <span id="sensorId"></span></div>
-<div>Name: <span id="sensorName"></span></div>
-<div>Type: <span id="sensorType"></span></div>
-<div>Last Reading: <span id="lastReading"></span></div>
-</div>
-<div>
-<label for="readingInput">Set New Reading:</label>
-<input id="readingInput" placeholder="Enter reading" step="0.1" type="number"/>
-<button onclick="updateReading()">Update Reading</button>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
 
+<main class="container">
+    <h2>Sensor Control</h2>
+    <div class="status">
+        <div>ID: <span id="sensorId"></span></div>
+        <div>Name: <span id="sensorName"></span></div>
+        <div>Type: <span id="sensorType"></span></div>
+        <div>Last Reading: <span id="lastReading"></span></div>
+    </div>
+    <div class="command-section reading-control">
+        <label for="readingInput">Set New Reading:</label>
+        <div class="number-input">
+            <button type="button" class="plus" onclick="changeReading(-1)">
+            </button>
+            <div class="reading-wrapper">
+                <input
+                        id="readingInput"
+                        type="number"
+                        min="0"
+                        max="1000"
+                        step="0.1"
+                        value="0"
+                        oninput="validateReading(this)"
+                        placeholder="Enter reading"
+                />
+                <span class="unit">u</span>
+            </div>
+            <button type="button" class="minus" onclick="changeReading(1)">
+            </button>
+        </div>
+        <button class="primary" onclick="updateReading()">Update Reading</button>
+    </div>
+
+    <div id="message"></div>
+    <button class="secondary" onclick="goBack()">Back to Management</button>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/sensor_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

@@ -20,7 +20,7 @@
                     <td>${lock.name}</td>
                     <td>${lock.locked ? "Locked" : "Unlocked"}</td>
                     <td>
-                      <button onclick="deleteDoorLock('${lock.id}')">Delete</button>
+                      <button onclick="deleteDoorLock('${lock.id}')" class="delete">Delete</button>
                       <button onclick="controlDoorLock('${lock.id}')">Control</button>
                     </td>
                 `;

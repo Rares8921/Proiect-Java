@@ -1,38 +1,87 @@
+:root {
+    --bg-light: #f6fbf8;
+    --bg-dark: #101914;
+    --card-light: #ffffff;
+    --card-dark: #1c2b22;
+    --text-light: #1c2d1c;
+    --text-dark: #d9fbe4;
+    --primary: #45c07a;
+    --primary-dark: #2d8a5a;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef;
-            margin: 0;
-            padding: 20px;
-        }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+    transition: background 0.3s, color 0.3s;
+}
 
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+html.dark body {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+}
 
-        h2 {
-            text-align: center;
-        }
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: var(--card-light);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+}
 
-        .status {
-            margin: 10px 0;
-            text-align: center;
-        }
+html.dark body .container {
+    background: var(--card-dark);
+}
 
-        button {
-            padding: 10px 15px;
-            margin: 10px;
-        }
+h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
 
-        #message {
-            margin-top: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+.status {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
 
-    
+button {
+    padding: 10px 20px;
+    margin: 10px auto;
+    display: block;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.primary:hover {
+    background: var(--primary-dark);
+}
+
+.secondary {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+#message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}

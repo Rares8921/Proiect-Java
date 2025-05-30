@@ -1,14 +1,16 @@
 package com.example.ihas.controllers;
 
-import com.example.ihas.aop.Audit;
 import com.example.ihas.config.JwtUtil;
 import com.example.ihas.models.User;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.UserService;
+import com.example.ihas.utils.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,19 +20,28 @@ public class AuthController {
 
     @Autowired
     private final JwtUtil jwtUtil;
+
+    @Autowired
     private final UserService userService;
+
+    @Autowired
+    private AuditService auditService;
 
     public AuthController(UserService _userService, JwtUtil _tokenUtil) {
         userService = _userService;
         jwtUtil = _tokenUtil;
     }
 
-    @Audit("A register request has been made")
     @PostMapping("/register_user")
     @ResponseBody
-    public ResponseEntity<String> register(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<String> register(@RequestParam String email, @RequestParam String password, HttpServletRequest request) {
         try {
             userService.registerUser(email, password);
+
+            String ip = IpUtil.getClientIp(request);
+            String message = String.format("Registered user: %s from IP: %s", email, ip);
+            auditService.log(message);
+
             return ResponseEntity.ok("Registration successful! Please check your email to verify your account.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error during registration: " + e.getMessage());
@@ -48,7 +59,7 @@ public class AuthController {
 
     @PostMapping("/login_user")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, String>> login(@RequestParam String email, @RequestParam String password, HttpServletRequest request) {
         Optional<User> userOpt = userService.findByEmail(email);
 
         if (userOpt.isEmpty()) {
@@ -69,8 +80,10 @@ public class AuthController {
             return ResponseEntity.status(401).body(Map.of("message", "Email not verified"));
         }
 
+        String ip = IpUtil.getClientIp(request);
+        auditService.log(String.format("Login success for user: %s from IP: %s", email, ip));
+
         String token = jwtUtil.generateToken(email);
         return ResponseEntity.ok(Map.of("message", "Login success", "token", token));
     }
-
 }

@@ -1,44 +1,176 @@
+:root {
+    --bg-light: #f6fbf8;
+    --bg-dark: #101914;
+    --card-light: #ffffff;
+    --card-dark: #1c2b22;
+    --text-light: #1c2d1c;
+    --text-dark: #d9fbe4;
+    --primary: #45c07a;
+    --primary-dark: #2d8a5a;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef;
-      margin: 0;
-      padding: 20px;
-    }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+    transition: background 0.3s, color 0.3s;
+}
 
-    .container {
-      max-width: 500px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: var(--card-light);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+}
 
-    h2 {
-      text-align: center;
-    }
+html.dark body .container {
+    background: var(--card-dark);
+}
 
-    .status {
-      margin: 10px 0;
-      text-align: center;
-    }
+h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
 
-    label {
-      display: block;
-      margin-top: 10px;
-    }
+.status {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
 
-    input,
-    button {
-      padding: 8px;
-      margin: 5px;
-    }
+label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
 
-    #message {
-      margin-top: 10px;
-      text-align: center;
-      font-weight: bold;
-    }
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
 
-  
+button {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.primary:hover {
+    background: var(--primary-dark);
+}
+
+.secondary {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+#message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.brightness-control .number-input {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.brightness-control .number-input button {
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brightness-control .number-input button:hover {
+    background: var(--primary-dark);
+}
+
+.brightness-wrapper {
+    position: relative;
+    width: 20%;
+}
+
+.brightness-wrapper input {
+    width: 100%;
+    padding-right: 35px;
+    text-align: right;
+    font-size: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.brightness-wrapper .unit {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #555;
+}
+
+html.dark body .brightness-wrapper .unit {
+    color: var(--text-dark);
+}
+
+html.dark body .number-input button {
+    background: var(--primary);
+}
+
+html.dark {
+    background: var(--bg-dark);
+}
+
+html.dark body {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    min-height: 100vh;
+}
+
+html.dark main {
+    background: var(--bg-dark);
+}

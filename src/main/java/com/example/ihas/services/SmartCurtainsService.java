@@ -55,8 +55,13 @@ public class SmartCurtainsService {
 
 
     private void updateTelemetry(SmartCurtains c) {
-        Map<String, Object> t = new HashMap<>();
-        t.put("position", c.getPosition());
-        tbService.updateTelemetry(baseUrl, c.getId(), t);
+        try {
+            Map<String, Object> t = new HashMap<>();
+            t.put("position", c.getPosition());
+            tbService.updateTelemetry(baseUrl, c.getId(), t);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + c.getId());
+        }
     }
+
 }

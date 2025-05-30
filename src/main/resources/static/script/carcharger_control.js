@@ -6,17 +6,15 @@ const token = localStorage.getItem("jwt")
 async function loadCharger() {
   try {
     const resp = await fetch(`${API_BASE}/${chargerId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
     if (!resp.ok) throw new Error("Failed to load charger data")
     const data = await resp.json()
     document.getElementById("chargerId").textContent = data.id
     document.getElementById("chargerName").textContent = data.name
     document.getElementById("chargingStatus").textContent = data.isCharging ? "Charging" : "Stopped"
-    document.getElementById("current").textContent = data.current
-    document.getElementById("voltage").textContent = data.voltage
+    document.getElementById("current").textContent = data.current + " A"
+    document.getElementById("voltage").textContent = data.voltage + " V"
   } catch (e) {
     document.getElementById("message").textContent = e.message
   }
@@ -31,7 +29,7 @@ async function toggleCharging() {
       },
     })
     if (!resp.ok) throw new Error("Failed to toggle charging")
-    document.getElementById("message").textContent = "Charging toggled"
+    document.getElementById("message").textContent = "Charging state toggled"
     setTimeout(() => {
       document.getElementById("message").textContent = ""
     }, 3000)

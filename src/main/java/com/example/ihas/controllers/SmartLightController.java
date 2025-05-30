@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartLight;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartLightService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class SmartLightController {
 
     private final SmartLightService lightService;
 
+    @Autowired
+    private AuditService auditService;
+
     public SmartLightController(SmartLightService service) {
         lightService = service;
     }
@@ -26,6 +31,7 @@ public class SmartLightController {
         String user_id = auth.getName();
         List<SmartLight> list = lightService.getAll(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart lights", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -46,6 +52,7 @@ public class SmartLightController {
             SmartLight light = lightService.get(id, user_id);
             Map<String, Object> result = mapping(light);
             result.put("eventLog", light.getEventLog());
+            auditService.log(String.format("User %s viewed smart light %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -60,6 +67,7 @@ public class SmartLightController {
             String name = body.get("name").toString();
             SmartLight light = new SmartLight(id, name);
             lightService.add(light, user_id);
+            auditService.log(String.format("User %s added smart light %s", user_id, id));
             return ResponseEntity.ok("SmartLight added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -71,6 +79,7 @@ public class SmartLightController {
         try {
             String user_id = auth.getName();
             lightService.delete(id, user_id);
+            auditService.log(String.format("User %s deleted smart light %s", user_id, id));
             return ResponseEntity.ok("SmartLight deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -82,6 +91,7 @@ public class SmartLightController {
         try {
             String user_id = auth.getName();
             lightService.togglePower(id, user_id);
+            auditService.log(String.format("User %s toggled power on smart light %s", user_id, id));
             return ResponseEntity.ok("SmartLight toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartLight: " + e.getMessage());
@@ -93,6 +103,7 @@ public class SmartLightController {
         try {
             String user_id = auth.getName();
             lightService.updateBrightness(id, brightness, user_id);
+            auditService.log(String.format("User %s updated brightness of smart light %s to %d", user_id, id, brightness));
             return ResponseEntity.ok("Brightness updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating brightness: " + e.getMessage());
@@ -104,6 +115,7 @@ public class SmartLightController {
         try {
             String user_id = auth.getName();
             lightService.updateColor(id, color, user_id);
+            auditService.log(String.format("User %s updated color of smart light %s to %s", user_id, id, color));
             return ResponseEntity.ok("Color updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error updating color: " + e.getMessage());

@@ -28,28 +28,34 @@ public class SmartCurtainsDAO {
 
     public SmartCurtains findById(String id, String user_id) {
         String sql = """
-            SELECT id, name, position
-            FROM smart_curtains
-            WHERE id = ? AND user_id = ?
-        """;
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                new SmartCurtains(
-                        rs.getString("id"),
-                        rs.getString("name")
-                ), id, user_id);
+        SELECT id, name, position
+        FROM smart_curtains
+        WHERE id = ? AND user_id = ?
+    """;
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            SmartCurtains c = new SmartCurtains(
+                    rs.getString("id"),
+                    rs.getString("name")
+            );
+            c.setPosition(rs.getInt("position"));
+            return c;
+        }, id, user_id);
     }
 
     public List<SmartCurtains> findAll(String user_id) {
         String sql = """
-            SELECT id, name, position
-            FROM smart_curtains
-            WHERE user_id = ?
-        """;
-        return jdbcTemplate.query(sql, (rs, rowNum) ->
-                new SmartCurtains(
-                        rs.getString("id"),
-                        rs.getString("name")
-                ), user_id);
+        SELECT id, name, position
+        FROM smart_curtains
+        WHERE user_id = ?
+    """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            SmartCurtains c = new SmartCurtains(
+                    rs.getString("id"),
+                    rs.getString("name")
+            );
+            c.setPosition(rs.getInt("position"));
+            return c;
+        }, user_id);
     }
 
     public void update(SmartCurtains curtains, String user_id) {

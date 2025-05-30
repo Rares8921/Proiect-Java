@@ -1,44 +1,161 @@
+:root {
+    --bg-light: #f6fbf8;
+    --bg-dark: #101914;
+    --card-light: #ffffff;
+    --card-dark: #1c2b22;
+    --text-light: #1c2d1c;
+    --text-dark: #d9fbe4;
+    --primary: #45c07a;
+    --primary-dark: #2d8a5a;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef;
-            margin: 0;
-            padding: 20px;
-        }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+    transition: background 0.3s, color 0.3s;
+}
 
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+html.dark body {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+}
 
-        h2 {
-            text-align: center;
-        }
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: var(--card-light);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+}
 
-        .status {
-            margin: 10px 0;
-            text-align: center;
-        }
+html.dark body .container {
+    background: var(--card-dark);
+}
 
-        label {
-            display: block;
-            margin-top: 10px;
-        }
+h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
 
-        input,
-        button {
-            padding: 8px;
-            margin: 5px;
-        }
+.status {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
 
-        #message {
-            margin-top: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
 
-    
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.primary:hover {
+    background: var(--primary-dark);
+}
+
+.secondary {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 18px;
+    background: transparent;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+#message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.reading-control .number-input {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.reading-control .number-input button {
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reading-control .number-input button:hover {
+    background: var(--primary-dark);
+}
+
+.reading-wrapper {
+    position: relative;
+    width: 40%;
+}
+
+.reading-wrapper input {
+    width: 100%;
+    padding-right: 10px;
+    text-align: right;
+    font-size: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.reading-wrapper .unit {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #555;
+}
+
+html.dark body .reading-wrapper .unit {
+    color: var(--text-dark);
+}

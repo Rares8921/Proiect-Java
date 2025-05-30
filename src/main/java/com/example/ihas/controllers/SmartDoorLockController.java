@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartDoorLock;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartDoorLockService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class SmartDoorLockController {
 
     private final SmartDoorLockService doorLockService;
+
+    @Autowired
+    private AuditService auditService;
 
     public SmartDoorLockController(SmartDoorLockService service) {
         doorLockService = service;
@@ -32,6 +37,7 @@ public class SmartDoorLockController {
             m.put("locked", lock.isLocked());
             return m;
         }).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart door locks", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -45,6 +51,7 @@ public class SmartDoorLockController {
             result.put("name", lock.getName());
             result.put("locked", lock.isLocked());
             result.put("eventLog", lock.getEventLog());
+            auditService.log(String.format("User %s viewed smart door lock %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -59,6 +66,7 @@ public class SmartDoorLockController {
             String name = body.get("name").toString();
             SmartDoorLock lock = new SmartDoorLock(id, name);
             doorLockService.add(lock, user_id);
+            auditService.log(String.format("User %s added smart door lock %s", user_id, id));
             return ResponseEntity.ok("SmartDoorLock added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -70,6 +78,7 @@ public class SmartDoorLockController {
         try {
             String user_id = auth.getName();
             doorLockService.delete(id, user_id);
+            auditService.log(String.format("User %s deleted smart door lock %s", user_id, id));
             return ResponseEntity.ok("SmartDoorLock deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -81,6 +90,7 @@ public class SmartDoorLockController {
         try {
             String user_id = auth.getName();
             doorLockService.toggleDoorLock(id, user_id);
+            auditService.log(String.format("User %s toggled smart door lock %s", user_id, id));
             return ResponseEntity.ok("SmartDoorLock toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartDoorLock: " + e.getMessage());

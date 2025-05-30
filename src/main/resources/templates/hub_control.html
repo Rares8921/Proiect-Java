@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Hub Control</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/hub_control.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Hub Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/hub_control.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Hub Control</h2>
-<div class="status">
-<div>ID: <span id="hubId"></span></div>
-<div>Name: <span id="hubName"></span></div>
-<div>Event Log: <span id="eventLog"></span></div>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
 
+<main class="container">
+    <h2>Smart Hub Control</h2>
+    <div class="status">
+        <div>ID: <span id="hubId"></span></div>
+        <div>Name: <span id="hubName"></span></div>
+        <div>Event Log: <span id="eventLog"></span></div>
+    </div>
+    <div id="message"></div>
+    <button class="secondary" onclick="goBack()">Back to Management</button>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/hub_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

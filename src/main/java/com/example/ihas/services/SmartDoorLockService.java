@@ -49,8 +49,12 @@ public class SmartDoorLockService {
 
 
     private void updateTelemetry(SmartDoorLock l) {
-        Map<String, Object> t = new HashMap<>();
-        t.put("locked", l.isLocked());
-        tbService.updateTelemetry(baseUrl, l.getId(), t);
+        try {
+            Map<String, Object> t = new HashMap<>();
+            t.put("locked", l.isLocked());
+            tbService.updateTelemetry(baseUrl, l.getId(), t);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + l.getId());
+        }
     }
 }

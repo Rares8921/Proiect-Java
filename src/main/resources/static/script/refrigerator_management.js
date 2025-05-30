@@ -21,7 +21,7 @@ async function loadRefrigerators() {
         <td>${ref.doorOpen ? "Open" : "Closed"}</td>
         <td>${ref.inventorySize || 0}</td>
         <td>
-          <button onclick="deleteRefrigerator('${ref.id}')">Delete</button>
+          <button onclick="deleteRefrigerator('${ref.id}')" class="delete">Delete</button>
           <button onclick="controlRefrigerator('${ref.id}')">Control</button>
         </td>
       `

@@ -19,9 +19,9 @@ async function loadSprinklers() {
         <td>${s.name}</td>
         <td>${s.isOn ? "ON" : "OFF"}</td>
         <td>${s.wateringDuration}</td>
-        <td>
-          <button onclick="deleteSprinkler('${s.id}')">Delete</button>
-          <button onclick="controlSprinkler('${s.id}')">Control</button>
+         <td>
+          <button onclick="deleteSprinkler('${s.id}')" class="delete">Delete</button>
+          <button onclick="controlSprinkler('${s.id}')" class="control">Control</button>
         </td>
       `
       tbody.appendChild(tr)
@@ -66,6 +66,34 @@ async function deleteSprinkler(id) {
   } catch (e) {
     document.getElementById("message").textContent = "Error deleting sprinkler: " + e.message
   }
+}
+
+function changeDuration(step) {
+  const input = document.getElementById('newDuration');
+  let value = parseFloat(input.value);
+
+  if (isNaN(value)) value = 0;
+
+  let newValue = value + step;
+  newValue = Math.max(0.1, Math.min(1440, newValue));
+
+  input.value = (newValue % 1 === 0) ? newValue.toFixed(0) : newValue.toFixed(1);
+}
+
+function validateDuration(input) {
+  let value = parseFloat(input.value.replace(',', '.'));
+
+  if (isNaN(value) || value < 0.1) {
+    input.value = '';
+    return;
+  }
+
+  const max = 1440;
+  if (value > max) {
+    value = max;
+  }
+
+  input.value = (value % 1 === 0) ? value.toFixed(0) : value.toFixed(1);
 }
 
 function controlSprinkler(id) {

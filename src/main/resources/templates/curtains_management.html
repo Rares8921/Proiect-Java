@@ -1,45 +1,63 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>SmartCurtains Management</title>
+    <script>
+        (function() {
+            document.documentElement.className = localStorage.getItem('theme') || 'light';
+        })();
+    </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/curtains_management.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartCurtains Management</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/curtains_management.css"/>
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>SmartCurtains Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add SmartCurtains</h3>
-<input id="newId" placeholder="ID (use token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<input id="newPosition" placeholder="Position (0-100)" required="" type="number"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing SmartCurtains</h3>
-<table id="curtainsTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Position</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<!-- Row generation -->
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<main class="container">
+    <h2>SmartCurtains Management</h2>
+    <div id="message"></div>
+
+    <h3>Add Smart Curtains</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (use token value)" required />
+        <input id="newName" type="text" placeholder="Name" required />
+        <div class="temp-control">
+            <label for="newPosition">Position (0–100%)</label>
+            <div class="number-input">
+                <button onclick="changePosition(-10)"></button>
+                <input id="newPosition" type="number" min="0" max="100" value="0" oninput="validatePosition(this)"/>
+                <button onclick="changePosition(10)"></button>
+            </div>
+        </div>
+        <button id="addBtn" class="primary">Add</button>
+    </div>
+
+    <h3>Existing Smart Curtains</h3>
+    <table id="curtainsTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to Dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/curtains_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

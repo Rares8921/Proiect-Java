@@ -1,46 +1,84 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>SmartSprinkler Management</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/sprinkler_management.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartSprinkler Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/sprinkler_management.css}" />
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>SmartSprinkler Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add SmartSprinkler</h3>
-<input id="newId" placeholder="ID (use token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<input id="newDuration" placeholder="Watering Duration" required="" type="number"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing SmartSprinklers</h3>
-<table id="sprinklerTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Power</th>
-<th>Watering Duration (min)</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<!-- JS -->
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<main class="container">
+    <h2>SmartSprinkler Management</h2>
+    <div id="message"></div>
+
+    <h3>Add SmartSprinkler</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (use token value)" required />
+        <input id="newName" type="text" placeholder="Name" required />
+
+        <div class="duration-field">
+            <label for="newDuration">Watering Duration (min)</label>
+            <div class="number-input">
+                <button type="button" class="plus" onclick="changeDuration(-1)">
+                </button>
+
+                <div class="duration-wrapper">
+                    <input
+                            id="newDuration"
+                            type="number"
+                            min="0.1"
+                            max="1440"
+                            step="0.1"
+                            required
+                            oninput="validateDuration(this)"
+                            placeholder="0"
+                    />
+                    <span class="minutes">min</span>
+                </div>
+
+                <button type="button" class="minus" onclick="changeDuration(1)">
+                </button>
+            </div>
+        </div>
+
+        <div class="add-btn-wrapper">
+            <button id="addBtn">Add</button>
+        </div>
+    </div>
+
+    <h3>Existing SmartSprinklers</h3>
+    <table id="sprinklerTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Power</th>
+            <th>Watering Duration (min)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/sprinkler_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

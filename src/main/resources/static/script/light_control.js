@@ -75,6 +75,31 @@ function toggleLight() {
     .catch((err) => (document.getElementById("message").textContent = "Error toggling light: " + err))
 }
 
+function changeBrightness(step) {
+  const input = document.getElementById('brightnessInput');
+  let value = parseInt(input.value);
+
+  if (isNaN(value)) value = 0;
+
+  let newValue = value + step;
+  newValue = Math.max(0, Math.min(100, newValue));
+
+  input.value = newValue;
+}
+
+function validateBrightness(input) {
+  let value = parseFloat(input.value.replace(',', '.'));
+
+  if (isNaN(value) || value < 0) {
+    input.value = '';
+    return;
+  }
+
+  value = Math.min(100, value);
+  input.value = Math.round(value);
+}
+
+
 function goBack() {
   window.location.href = "/light_management.html"
 }

@@ -1,6 +1,8 @@
 package com.example.ihas.devices;
 
 import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +14,18 @@ public final class SmartThermostat implements SmartDevice {
 
     @Getter
     private boolean isOn;
+
     @Getter
     private double temperature;
+
     @Getter
     private Mode mode;
+
     @Getter
     private final List<String> eventLog;
+
+    @Getter @Setter
+    private String userId;
 
     public SmartThermostat(String _id, String _name) {
         id = _id;

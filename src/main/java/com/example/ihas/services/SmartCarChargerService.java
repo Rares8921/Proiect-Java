@@ -49,10 +49,14 @@ public class SmartCarChargerService {
 
 
     private void updateTelemetry(SmartCarCharger ch) {
-        Map<String, Object> t = new HashMap<>();
-        t.put("isCharging", ch.isCharging());
-        t.put("current", ch.getCurrent());
-        t.put("voltage", ch.getVoltage());
-        tbService.updateTelemetry(baseUrl, ch.getId(), t);
+        try {
+            Map<String, Object> t = new HashMap<>();
+            t.put("isCharging", ch.isCharging());
+            t.put("current", ch.getCurrent());
+            t.put("voltage", ch.getVoltage());
+            tbService.updateTelemetry(baseUrl, ch.getId(), t);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + ch.getId());
+        }
     }
 }

@@ -21,7 +21,7 @@ async function loadChargers() {
         <td>${charger.current}</td>
         <td>${charger.voltage}</td>
         <td>
-          <button onclick="deleteCharger('${charger.id}')">Delete</button>
+          <button onclick="deleteCharger('${charger.id}')" class="delete">Delete</button>
           <button onclick="controlCharger('${charger.id}')">Control</button>
         </td>
       `
@@ -32,9 +32,41 @@ async function loadChargers() {
   }
 }
 
+function changeCurrent(step) {
+  const input = document.getElementById("newCurrent")
+  let value = parseFloat(input.value) || 0
+  input.value = Math.max(0, Math.min(100, value + step))
+}
+
+function validateCurrent(input) {
+  let val = parseFloat(input.value)
+  if (isNaN(val)) input.value = ""
+  else input.value = Math.max(0, Math.min(100, val))
+}
+
+function changeVoltage(step) {
+  const input = document.getElementById("newVoltage")
+  let value = parseFloat(input.value) || 0
+  input.value = Math.max(0, Math.min(500, value + step))
+}
+
+function validateVoltage(input) {
+  let val = parseFloat(input.value)
+  if (isNaN(val)) input.value = ""
+  else input.value = Math.max(0, Math.min(500, val))
+}
+
 async function addCharger() {
-  const id = document.getElementById("newId").value
-  const name = document.getElementById("newName").value
+  const id = document.getElementById("newId").value.trim()
+  const name = document.getElementById("newName").value.trim()
+  const current = parseFloat(document.getElementById("newCurrent").value)
+  const voltage = parseFloat(document.getElementById("newVoltage").value)
+
+  if (!id || !name || isNaN(current) || isNaN(voltage)) {
+    document.getElementById("message").textContent = "Please complete all fields correctly."
+    return
+  }
+
   try {
     const resp = await fetch(API_BASE, {
       method: "POST",
@@ -42,7 +74,7 @@ async function addCharger() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ id, name }),
+      body: JSON.stringify({ id, name, current, voltage }),
     })
     const msg = await resp.text()
     document.getElementById("message").textContent = msg

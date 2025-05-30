@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartHub;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartHubService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class SmartHubController {
 
     private final SmartHubService hubService;
+
+    @Autowired
+    private AuditService auditService;
 
     public SmartHubController(SmartHubService service) {
         hubService = service;
@@ -32,6 +37,7 @@ public class SmartHubController {
             m.put("eventLogSize", hub.getEventLog().size());
             return m;
         }).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart hubs", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -44,6 +50,7 @@ public class SmartHubController {
             result.put("id", hub.getId());
             result.put("name", hub.getName());
             result.put("eventLog", hub.getEventLog());
+            auditService.log(String.format("User %s viewed smart hub %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -58,6 +65,7 @@ public class SmartHubController {
             String name = body.get("name").toString();
             SmartHub hub = new SmartHub(id, name);
             hubService.add(hub, user_id);
+            auditService.log(String.format("User %s added smart hub %s", user_id, id));
             return ResponseEntity.ok("SmartHub added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -69,6 +77,7 @@ public class SmartHubController {
         try {
             String user_id = auth.getName();
             hubService.delete(id, user_id);
+            auditService.log(String.format("User %s deleted smart hub %s", user_id, id));
             return ResponseEntity.ok("SmartHub deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -82,6 +91,7 @@ public class SmartHubController {
             String name = body.get("name").toString();
             SmartHub hub = new SmartHub(id, name);
             hubService.update(hub, user_id);
+            auditService.log(String.format("User %s updated smart hub %s", user_id, id));
             return ResponseEntity.ok("SmartHub updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -93,6 +103,7 @@ public class SmartHubController {
         try {
             String user_id = auth.getName();
             hubService.togglePower(id, user_id);
+            auditService.log(String.format("User %s toggled power state on smart hub %s", user_id, id));
             return ResponseEntity.ok("SmartHub toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartHub: " + e.getMessage());

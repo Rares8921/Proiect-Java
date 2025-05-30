@@ -24,6 +24,14 @@ CREATE TABLE IF NOT EXISTS smart_refrigerator (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS smart_refrigerator_item (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    refrigerator_id VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    expiry_date DATE NOT NULL,
+    FOREIGN KEY (refrigerator_id) REFERENCES smart_refrigerator(id)
+);
+
 CREATE TABLE IF NOT EXISTS smart_sensor (
     id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,

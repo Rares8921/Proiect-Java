@@ -64,6 +64,19 @@ async function updateSensitivity() {
   }
 }
 
+function changeSensitivity(step) {
+  const input = document.getElementById("sensitivityInput");
+  let val = parseInt(input.value) || 5;
+  val = Math.max(1, Math.min(10, val + step));
+  input.value = val;
+}
+
+function validateSensitivity(input) {
+  let val = parseInt(input.value);
+  if (isNaN(val)) input.value = '';
+  else input.value = Math.max(1, Math.min(10, val));
+}
+
 function goBack() {
   window.location.href = "/camera_management.html"
 }

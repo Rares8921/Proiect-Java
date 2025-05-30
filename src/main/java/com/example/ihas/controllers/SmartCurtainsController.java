@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartCurtains;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartCurtainsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class SmartCurtainsController {
 
     private final SmartCurtainsService curtainsService;
+
+    @Autowired
+    private AuditService auditService;
 
     public SmartCurtainsController(SmartCurtainsService service) {
         curtainsService = service;
@@ -32,6 +37,7 @@ public class SmartCurtainsController {
             m.put("position", curtain.getPosition());
             return m;
         }).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart curtains", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -45,6 +51,7 @@ public class SmartCurtainsController {
             result.put("name", curtain.getName());
             result.put("position", curtain.getPosition());
             result.put("eventLog", curtain.getEventLog());
+            auditService.log(String.format("User %s viewed smart curtains %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -61,6 +68,7 @@ public class SmartCurtainsController {
             SmartCurtains curtain = new SmartCurtains(id, name);
             curtain.setPosition(position);
             curtainsService.add(curtain, user_id);
+            auditService.log(String.format("User %s added smart curtains %s", user_id, id));
             return ResponseEntity.ok("SmartCurtains added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -72,6 +80,7 @@ public class SmartCurtainsController {
         try {
             String user_id = auth.getName();
             curtainsService.delete(id, user_id);
+            auditService.log(String.format("User %s deleted smart curtains %s", user_id, id));
             return ResponseEntity.ok("SmartCurtains deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -83,6 +92,7 @@ public class SmartCurtainsController {
         try {
             String user_id = auth.getName();
             curtainsService.toggleCurtains(id, user_id);
+            auditService.log(String.format("User %s toggled smart curtains %s", user_id, id));
             return ResponseEntity.ok("SmartCurtains toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling curtains: " + e.getMessage());
@@ -96,6 +106,7 @@ public class SmartCurtainsController {
                 int pos = Integer.parseInt(body.get("position").toString());
                 String user_id = auth.getName();
                 curtainsService.updatePosition(id, pos, user_id);
+                auditService.log(String.format("User %s updated position on smart curtains %s to %d", user_id, id, pos));
                 return ResponseEntity.ok("Position updated");
             } else {
                 return ResponseEntity.badRequest().body("Position value is required");

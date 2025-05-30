@@ -1,16 +1,25 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+:root {
+  --bg-light: #f6fbf8;
+  --bg-dark: #101914;
+  --card-light: #ffffff;
+  --card-dark: #1c2b22;
+  --text-light: #1c2d1c;
+  --text-dark: #d9fbe4;
+  --primary: #45c07a;
+  --primary-dark: #2d8a5a;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #eef;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg-light);
+  color: var(--text-light);
   margin: 0;
-  padding: 0;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  background: var(--bg-dark);
+  color: var(--text-dark);
 }
 
 main {
@@ -18,27 +27,33 @@ main {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px;
+  padding: 40px 20px;
 }
-
-
 
 .container {
   max-width: 500px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  background: var(--card-light);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: background 0.3s ease;
+}
+
+html.dark body .container {
+  background: var(--card-dark);
 }
 
 h2 {
   text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
 }
 
 .status {
-  margin: 10px 0;
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
 }
 
 .slider-container {
@@ -47,7 +62,7 @@ h2 {
 }
 
 .slider-container input[type="range"] {
-  width: 80%;
+  width: 100%;
 }
 
 .mode-buttons {
@@ -56,32 +71,93 @@ h2 {
 }
 
 .mode-buttons button {
-  margin: 0 5px;
-  padding: 10px;
+  margin: 5px;
+  padding: 10px 14px;
+  font-weight: 600;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.mode-cool {
-  background: #007BFF;
+.mode-cool { background: #00aaff; }
+.mode-heat { background: #ff5722; }
+.mode-off  { background: #777; }
+.mode-auto { background: #4caf50; }
+
+.centered {
+  text-align: center;
+  margin: 15px 0;
 }
 
-.mode-heat {
-  background: #FF5722;
+input[type="number"] {
+  padding: 8px;
+  width: 80px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
 }
 
-.mode-off {
-  background: #777;
+button.primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
 
-.mode-auto {
-  background: #4CAF50;
+button.primary:hover {
+  background: var(--primary-dark);
+}
+
+button.secondary {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 18px;
+  background: transparent;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+button.secondary:hover {
+  background: var(--primary);
+  color: white;
 }
 
 #message {
-  margin-top: 10px;
   text-align: center;
   font-weight: bold;
+  margin-top: 15px;
 }
 
+.temperature-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-right: 10%;
+}
+
+.temperature-wrapper input {
+  padding-right: 25px;
+  width: 80px;
+  text-align: right;
+}
+
+.temperature-wrapper .celsius {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateX(50%) translateY(-50%);
+  pointer-events: none;
+  color: #555;
+}
+
+html.dark body .temperature-wrapper .celsius {
+  color: var(--text-dark);
+}

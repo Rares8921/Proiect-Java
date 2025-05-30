@@ -1,43 +1,127 @@
+:root {
+    --bg-light: #f6fbf8;
+    --bg-dark: #101914;
+    --card-light: #ffffff;
+    --card-dark: #1e2d25;
+    --text-light: #1b2a1b;
+    --text-dark: #d6f6e2;
+    --primary: #45c07a;
+    --primary-dark: #2d8a5a;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 20px;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background: #007BFF;
-      color: #fff;
-    }
-    button {
-      padding: 8px 12px;
-      margin: 2px;
-    }
-    .add-form {
-      margin-bottom: 20px;
-    }
-    .add-form input {
-      padding: 6px;
-      margin-right: 10px;
-    }
-    #message {
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-  
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+    transition: background 0.3s, color 0.3s;
+}
+
+html.dark body {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: var(--card-light);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
+}
+
+html.dark body .container {
+    background: var(--card-dark);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.add-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-form input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    flex: 1 1 200px;
+}
+
+.add-form button {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.add-form button:hover {
+    background: var(--primary-dark);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+}
+
+html.dark body th {
+    background: var(--primary-dark);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.action-buttons button {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background: var(--primary-dark);
+}
+
+#message {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}

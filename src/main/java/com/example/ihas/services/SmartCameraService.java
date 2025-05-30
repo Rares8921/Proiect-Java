@@ -54,10 +54,14 @@ public class SmartCameraService {
     }
 
     private void updateTelemetry(SmartCamera cam) {
-        Map<String, Object> t = new HashMap<>();
-        t.put("isRecording", cam.isRecording());
-        t.put("resolution", cam.getResolution());
-        t.put("detectionSensitivity", cam.getDetectionSensitivity());
-        tbService.updateTelemetry(baseUrl, cam.getId(), t);
+        try {
+            Map<String, Object> t = new HashMap<>();
+            t.put("isRecording", cam.isRecording());
+            t.put("resolution", cam.getResolution());
+            t.put("detectionSensitivity", cam.getDetectionSensitivity());
+            tbService.updateTelemetry(baseUrl, cam.getId(), t);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + cam.getId());
+        }
     }
 }

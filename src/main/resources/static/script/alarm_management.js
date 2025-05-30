@@ -20,8 +20,8 @@ async function loadAlarms() {
         <td>${alarm.isArmed ? "Armed" : "Disarmed"}</td>
         <td>${alarm.alarmTriggered ? "Triggered" : "Normal"}</td>
         <td>
-          <button onclick="deleteAlarm('${alarm.id}')">Delete</button>
-          <button onclick="controlAlarm('${alarm.id}')">Control</button>
+          <button onclick="deleteAlarm('${alarm.id}')" class="delete">Delete</button>
+          <button onclick="controlAlarm('${alarm.id}')" class="control">Control</button>
         </td>
       `
       tbody.appendChild(tr)

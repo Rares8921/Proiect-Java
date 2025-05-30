@@ -1,53 +1,75 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Oven Control</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/oven_control.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Oven Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/oven_control.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Oven Control</h2>
-<div class="status">
-<div>ID: <span id="ovenId"></span></div>
-<div>Name: <span id="ovenName"></span></div>
-<div>Power: <span id="powerStatus"></span></div>
-<div>Temperature: <span id="temperature"></span></div>
-<div>Timer: <span id="timer"></span></div>
-<div>Preheat: <span id="preheatStatus"></span></div>
-</div>
-<div>
-<label for="temperatureInput">Set Temperature (50-300°):</label>
-<input id="temperatureInput" max="300" min="50" type="number"/>
-<button onclick="updateTemperature()">Update Temperature</button>
-</div>
-<div>
-<label for="timerInput">Set Timer (minutes):</label>
-<input id="timerInput" min="0" type="number"/>
-<button onclick="updateTimer()">Update Timer</button>
-</div>
-<div>
-<label for="preheatSelect">Preheat:</label>
-<select id="preheatSelect">
-<option value="true">Activate</option>
-<option value="false">Deactivate</option>
-</select>
-<button onclick="updatePreheat()">Set Preheat</button>
-</div>
-<div style="text-align: center;">
-<button onclick="toggleOven()">Toggle Power</button>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
 
+<main class="container">
+    <h2>Smart Oven Control</h2>
+    <div class="status">
+        <div>ID: <span id="ovenId"></span></div>
+        <div>Name: <span id="ovenName"></span></div>
+        <div>Power: <span id="powerStatus"></span></div>
+        <div>Temperature: <span id="temperature"></span></div>
+        <div>Timer: <span id="timer"></span></div>
+        <div>Preheat: <span id="preheatStatus"></span></div>
+    </div>
+
+    <div class="command-section temp-control">
+        <label for="temperatureInput">Set Temperature (50–300°C):</label>
+        <div class="number-input">
+            <button onclick="changeValue('temperatureInput', -10, 50, 300)"></button>
+            <div class="temp-wrapper">
+                <input id="temperatureInput" type="number" min="50" max="300" step="10" oninput="validateRange(this, 50, 300)">
+                <span class="unit">°C</span>
+            </div>
+            <button onclick="changeValue('temperatureInput', 10, 50, 300)"></button>
+        </div>
+        <button class="primary" onclick="updateTemperature()">Update Temperature</button>
+    </div>
+
+    <div class="command-section temp-control">
+        <label for="timerInput">Set Timer (0–240 minutes):</label>
+        <div class="number-input">
+            <button onclick="changeValue('timerInput', -5, 0, 240)"></button>
+            <input id="timerInput" type="number" min="0" max="240" step="5" oninput="validateRange(this, 0, 240)">
+            <button onclick="changeValue('timerInput', 5, 0, 240)"></button>
+        </div>
+        <button class="primary" onclick="updateTimer()">Update Timer</button>
+    </div>
+
+
+    <div class="command-section">
+        <label for="preheatSelect">Preheat:</label>
+        <select id="preheatSelect">
+            <option value="true">Activate</option>
+            <option value="false">Deactivate</option>
+        </select>
+        <button class="primary" onclick="updatePreheat()">Set Preheat</button>
+    </div>
+    <div class="controls">
+        <button class="primary" onclick="toggleOven()">Toggle Power</button>
+    </div>
+    <div id="message"></div>
+    <button class="secondary" onclick="goBack()">Back to Management</button>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/oven_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

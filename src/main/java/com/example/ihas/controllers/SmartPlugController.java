@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartPlug;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartPlugService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class SmartPlugController {
 
     private final SmartPlugService plugService;
 
+    @Autowired
+    private AuditService auditService;
+
     public SmartPlugController(SmartPlugService service) {
         plugService = service;
     }
@@ -26,6 +31,7 @@ public class SmartPlugController {
         String user_id = auth.getName();
         List<SmartPlug> list = plugService.getAllSmartPlugs(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart plugs", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -34,6 +40,7 @@ public class SmartPlugController {
         try {
             String user_id = auth.getName();
             SmartPlug plug = plugService.getSmartPlug(id, user_id);
+            auditService.log(String.format("User %s viewed smart plug %s", user_id, id));
             return ResponseEntity.ok(mapping(plug));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -58,6 +65,7 @@ public class SmartPlugController {
             String name = body.get("name").toString();
             SmartPlug plug = new SmartPlug(id, name);
             plugService.addSmartPlug(plug, user_id);
+            auditService.log(String.format("User %s added smart plug %s", user_id, id));
             return ResponseEntity.ok("SmartPlug added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -69,6 +77,7 @@ public class SmartPlugController {
         try {
             String user_id = auth.getName();
             plugService.deleteSmartPlug(id, user_id);
+            auditService.log(String.format("User %s deleted smart plug %s", user_id, id));
             return ResponseEntity.ok("SmartPlug deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -76,13 +85,20 @@ public class SmartPlugController {
     }
 
     @PostMapping("/{id}/toggle")
-    public ResponseEntity<String> toggleSmartPlug(@PathVariable String id, Authentication auth) {
+    public ResponseEntity<?> toggleSmartPlug(@PathVariable String id, Authentication auth) {
+        if (auth == null) {
+            return ResponseEntity.status(401).body("Authentication required");
+        }
+
         try {
             String user_id = auth.getName();
             plugService.toggleSmartPlug(id, user_id);
-            return ResponseEntity.ok("SmartPlug toggled");
+            SmartPlug updated = plugService.getSmartPlug(id, user_id);
+            auditService.log(String.format("User %s toggled smart plug %s", user_id, id));
+            return ResponseEntity.ok(mapping(updated));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartPlug: " + e.getMessage());
         }
     }
+
 }

@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartSprinkler;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartSprinklerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class SmartSprinklerController {
 
     private final SmartSprinklerService sprinklerService;
 
+    @Autowired
+    private AuditService auditService;
+
     public SmartSprinklerController(SmartSprinklerService service) {
         sprinklerService = service;
     }
@@ -26,6 +31,7 @@ public class SmartSprinklerController {
         String user_id = auth.getName();
         List<SmartSprinkler> list = sprinklerService.getAllSprinklers(user_id);
         List<Map<String, Object>> response = list.stream().map(this::mapping).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart sprinklers", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -45,6 +51,7 @@ public class SmartSprinklerController {
             SmartSprinkler sprinkler = sprinklerService.getSprinkler(id, user_id);
             Map<String, Object> result = mapping(sprinkler);
             result.put("eventLog", sprinkler.getEventLog());
+            auditService.log(String.format("User %s viewed smart sprinkler %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -63,6 +70,7 @@ public class SmartSprinklerController {
                 sprinkler.setWateringDuration(duration);
             }
             sprinklerService.addSprinkler(sprinkler, user_id);
+            auditService.log(String.format("User %s added smart sprinkler %s", user_id, id));
             return ResponseEntity.ok("SmartSprinkler added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -74,6 +82,7 @@ public class SmartSprinklerController {
         try {
             String user_id = auth.getName();
             sprinklerService.deleteSprinkler(id, user_id);
+            auditService.log(String.format("User %s deleted smart sprinkler %s", user_id, id));
             return ResponseEntity.ok("SmartSprinkler deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -85,6 +94,7 @@ public class SmartSprinklerController {
         try {
             String user_id = auth.getName();
             sprinklerService.togglePower(id, user_id);
+            auditService.log(String.format("User %s toggled smart sprinkler %s", user_id, id));
             return ResponseEntity.ok("SmartSprinkler toggled");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error toggling SmartSprinkler: " + e.getMessage());
@@ -98,6 +108,7 @@ public class SmartSprinklerController {
             if (body.containsKey("wateringDuration")) {
                 int duration = Integer.parseInt(body.get("wateringDuration").toString());
                 sprinklerService.updateWateringDuration(id, duration, user_id);
+                auditService.log(String.format("User %s updated watering duration on smart sprinkler %s to %d minutes", user_id, id, duration));
                 return ResponseEntity.ok("Watering duration updated");
             } else {
                 return ResponseEntity.badRequest().body("Watering duration is required");

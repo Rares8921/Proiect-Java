@@ -1,79 +1,67 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Home Dashboard</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/dashboard.css}" />
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Home Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
 
-<div class="container">
-<div class="card">
-<h3>Thermostat</h3>
-<a href="/thermostat_management">Manage</a>
-</div>
-<div class="card">
-<h3>Smart Plugs</h3>
-<a href="/smartplug_management">Manage</a>
-</div>
-<div class="card">
-<h3>Refrigerators</h3>
-<a href="/refrigerator_management">Manage</a>
-</div>
-<div class="card">
-<h3>Sensors</h3>
-<a href="/sensor_management">Manage</a>
-</div>
-<div class="card">
-<h3>Sprinklers</h3>
-<a href="/sprinkler_management">Manage</a>
-</div>
-<div class="card">
-<h3>Smart Lights</h3>
-<a href="/light_management">Manage</a>
-</div>
-<div class="card">
-<h3>Smart Ovens</h3>
-<a href="/oven_management">Manage</a>
-</div>
-<div class="card">
-<h3>Alarm Systems</h3>
-<a href="/alarm_management">Manage</a>
-</div>
-<div class="card">
-<h3>Cameras</h3>
-<a href="/camera_management">Manage</a>
-</div>
-<div class="card">
-<h3>Car Chargers</h3>
-<a href="/carcharger_management">Manage</a>
-</div>
-<div class="card">
-<h3>Curtains</h3>
-<a href="/curtains_management">Manage</a>
-</div>
-<div class="card">
-<h3>Door Locks</h3>
-<a href="/doorlock_management">Manage</a>
-</div>
-<div class="card">
-<h3>Smart Assistants</h3>
-<a href="/assistant_management">Manage</a>
-</div>
-<div class="card">
-<h3>Smart Hubs</h3>
-<a href="/hub_management">Manage</a>
-</div>
-</div>
-<div class="stats">
-<h2>Statistics</h2>
-<p>Total Devices: <span id="totalDevices">0</span></p>
-<p>Online Devices: <span id="onlineDevices">0</span></p>
-</div>
+<main class="dashboard">
+    <section class="intro">
+        <h2>Welcome to your Smart Home</h2>
+        <p>Manage all your smart devices in one place.</p>
+    </section>
+
+    <section class="cards-section">
+        <h3 class="section-title">Environment</h3>
+        <div class="cards-grid">
+            <div class="card"><h4>Thermostat</h4><a href="/thermostat_management">Manage</a></div>
+            <div class="card"><h4>Sprinklers</h4><a href="/sprinkler_management">Manage</a></div>
+            <div class="card"><h4>Smart Lights</h4><a href="/light_management">Manage</a></div>
+            <div class="card"><h4>Sensors</h4><a href="/sensor_management">Manage</a></div>
+        </div>
+
+        <h3 class="section-title">Appliances</h3>
+        <div class="cards-grid">
+            <div class="card"><h4>Refrigerators</h4><a href="/refrigerator_management">Manage</a></div>
+            <div class="card"><h4>Smart Ovens</h4><a href="/oven_management">Manage</a></div>
+            <div class="card"><h4>Smart Plugs</h4><a href="/smartplug_management">Manage</a></div>
+            <div class="card"><h4>Curtains</h4><a href="/curtains_management">Manage</a></div>
+        </div>
+
+        <h3 class="section-title">Security & Systems</h3>
+        <div class="cards-grid">
+            <div class="card"><h4>Alarm Systems</h4><a href="/alarm_management">Manage</a></div>
+            <div class="card"><h4>Cameras</h4><a href="/camera_management">Manage</a></div>
+            <div class="card"><h4>Door Locks</h4><a href="/doorlock_management">Manage</a></div>
+            <div class="card"><h4>Car Chargers</h4><a href="/carcharger_management">Manage</a></div>
+        </div>
+
+        <h3 class="section-title">Smart Network</h3>
+        <div class="cards-grid">
+            <div class="card"><h4>Smart Assistants</h4><a href="/assistant_management">Manage</a></div>
+            <div class="card"><h4>Smart Hubs</h4><a href="/hub_management">Manage</a></div>
+        </div>
+    </section>
+
+    <section class="stats glass">
+        <h2>Network Statistics</h2>
+        <p>Total Devices: <span id="totalDevices">0</span></p>
+        <p>Online Devices: <span id="onlineDevices">0</span></p>
+    </section>
+</main>
+
 <div th:replace="~{fragments :: footerFrag}"></div>
 
 <script src="/script/main.js"></script>

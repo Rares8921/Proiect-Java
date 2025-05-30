@@ -1,32 +1,38 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Door Lock Control</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/doorlock_control.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Door Lock Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/doorlock_control.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Door Lock Control</h2>
-<div class="status">
-<div>ID: <span id="lockId"></span></div>
-<div>Name: <span id="lockName"></span></div>
-<div>Locked: <span id="lockStatus"></span></div>
-</div>
-<div style="text-align: center;">
-<button onclick="toggleLock()">Toggle Lock</button>
-</div>
-<div id="message"></div>
-<br/>
-<button onclick="goBack()">Back to Management</button>
-</div>
 
+<main class="container">
+    <h2>Smart Door Lock Control</h2>
+    <div class="status">
+        <div>ID: <span id="lockId"></span></div>
+        <div>Name: <span id="lockName"></span></div>
+        <div>Locked: <span id="lockStatus"></span></div>
+    </div>
+    <div class="controls">
+        <button class="primary" onclick="toggleLock()">Toggle Lock</button>
+    </div>
+    <div id="message"></div>
+    <button class="secondary" onclick="goBack()">Back to Management</button>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/doorlock_control.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

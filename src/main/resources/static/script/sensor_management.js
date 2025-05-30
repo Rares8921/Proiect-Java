@@ -20,7 +20,7 @@ async function loadSensors() {
         <td>${sensor.sensorType}</td>
         <td>${sensor.lastReading}</td>
         <td>
-          <button onclick="deleteSensor('${sensor.id}')">Delete</button>
+          <button onclick="deleteSensor('${sensor.id}')" class="delete">Delete</button>
           <button onclick="controlSensor('${sensor.id}')">Control</button>
         </td>
       `

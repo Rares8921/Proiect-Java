@@ -60,9 +60,13 @@ public class SmartAlarmSystemService {
     }
 
     private void updateTelemetry(SmartAlarmSystem a) {
-        Map<String, Object> t = new HashMap<>();
-        t.put("isArmed", a.isArmed());
-        t.put("alarmTriggered", a.isAlarmTriggered());
-        tbService.updateTelemetry(baseUrl, a.getId(), t);
+        try {
+            Map<String, Object> t = new HashMap<>();
+            t.put("isArmed", a.isArmed());
+            t.put("alarmTriggered", a.isAlarmTriggered());
+            tbService.updateTelemetry(baseUrl, a.getId(), t);
+        } catch (Exception ignored) {
+            System.err.println("Failed to update telemetry for " + a.getId());
+        }
     }
 }

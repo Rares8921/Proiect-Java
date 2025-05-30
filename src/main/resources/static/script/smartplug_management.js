@@ -20,7 +20,7 @@ async function loadSmartPlugs() {
         <td>${plug.isOn ? "ON" : "OFF"}</td>
         <td>${plug.currentConsumption}</td>
         <td>
-          <button onclick="deleteSmartPlug('${plug.id}')">Delete</button>
+          <button onclick="deleteSmartPlug('${plug.id}')" class="delete">Delete</button>
           <button onclick="controlSmartPlug('${plug.id}')">Control</button>
         </td>
       `

@@ -1,7 +1,9 @@
 package com.example.ihas.controllers;
 
 import com.example.ihas.devices.SmartSensor;
+import com.example.ihas.services.AuditService;
 import com.example.ihas.services.SmartSensorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class SmartSensorController {
 
     private final SmartSensorService sensorService;
 
+    @Autowired
+    private AuditService auditService;
+
     public SmartSensorController(SmartSensorService service) {
         sensorService = service;
     }
@@ -26,6 +31,7 @@ public class SmartSensorController {
         String user_id = auth.getName();
         List<SmartSensor> sensors = sensorService.getAllSensors(user_id);
         List<Map<String, Object>> response = sensors.stream().map(this::mapping).collect(Collectors.toList());
+        auditService.log(String.format("User %s listed all smart sensors", user_id));
         return ResponseEntity.ok(response);
     }
 
@@ -45,6 +51,7 @@ public class SmartSensorController {
             SmartSensor sensor = sensorService.getSensor(id, user_id);
             Map<String, Object> result = mapping(sensor);
             result.put("eventLog", sensor.getEventLog());
+            auditService.log(String.format("User %s viewed smart sensor %s", user_id, id));
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -64,6 +71,7 @@ public class SmartSensorController {
                 sensor.updateReading(reading);
             }
             sensorService.addSensor(sensor, user_id);
+            auditService.log(String.format("User %s added smart sensor %s of type %s", user_id, id, sensorType));
             return ResponseEntity.ok("Sensor added");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -76,6 +84,7 @@ public class SmartSensorController {
             String user_id = auth.getName();
             double reading = Double.parseDouble(body.get("lastReading").toString());
             sensorService.updateReading(id, reading, user_id);
+            auditService.log(String.format("User %s updated reading of smart sensor %s to %.2f", user_id, id, reading));
             return ResponseEntity.ok("Sensor reading updated");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -87,6 +96,7 @@ public class SmartSensorController {
         try {
             String user_id = auth.getName();
             sensorService.deleteSensor(id, user_id);
+            auditService.log(String.format("User %s deleted smart sensor %s", user_id, id));
             return ResponseEntity.ok("Sensor deleted");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());

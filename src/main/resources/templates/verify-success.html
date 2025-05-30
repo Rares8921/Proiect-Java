@@ -1,6 +1,13 @@
 <h<!DOCTYPE html>
 <html lang="ro">
 <head>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
+  <script defer src="/script/theme-toggle.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification Successful</title>

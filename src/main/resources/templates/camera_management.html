@@ -1,48 +1,72 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>SmartCamera Management</title>
-
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/camera_management.css}"/>
+    <script>
+        (function () {
+            document.documentElement.className = localStorage.getItem('theme') || 'light';
+        })();
+    </script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SmartCamera Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/camera_management.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+          integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+          crossorigin="anonymous"/>
+    <script defer src="/script/theme-toggle.js"></script>
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>SmartCamera Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add SmartCamera</h3>
-<input id="newId" placeholder="ID (Token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<input id="newResolution" placeholder="Resolution (e.g., 1080p, 4K)" required="" type="text"/>
-<input id="newSensitivity" max="10" min="1" placeholder="Detection Sensitivity" required="" type="number" value="5"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing SmartCameras</h3>
-<table id="cameraTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Recording</th>
-<th>Resolution</th>
-<th>Sensitivity</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-<!-- JS -->
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<main class="container">
+    <h2>SmartCamera Management</h2>
+    <div id="message"></div>
+
+    <h3>Add SmartCamera</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (Token value)" required/>
+        <input id="newName" type="text" placeholder="Name" required/>
+        <select id="newResolution" required>
+            <option value="">Select resolution</option>
+            <option value="480">480p</option>
+            <option value="720">720p</option>
+            <option value="1080">1080p</option>
+            <option value="1440">1440p</option>
+            <option value="2160">2160p</option>
+            <option value="4320">4320p</option>
+        </select>
+        <div class="number-input">
+            <button onclick="changeSensitivity(-1)"></button>
+            <input id="newSensitivity" type="number" min="1" max="10" value="5" oninput="validateSensitivity(this)"/>
+            <button onclick="changeSensitivity(1)"></button>
+        </div>
+        <button id="addBtn">Add</button>
+    </div>
+
+    <h3>Existing SmartCameras</h3>
+    <table id="cameraTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Recording</th>
+            <th>Resolution</th>
+            <th>Sensitivity</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/camera_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

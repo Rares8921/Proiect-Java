@@ -1,46 +1,71 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Smart Oven Management</title>
+<script>
+    (function() {
+      document.documentElement.className = localStorage.getItem('theme') || 'light';
+    })();
+  </script>
 
-<link rel="stylesheet" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" th:href="@{/css/oven_management.css}"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Oven Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/oven_management.css}"/>
+    <script defer src="/script/theme-toggle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 </head>
-<body>
+<body class="light">
 <div th:replace="~{fragments :: headerFrag}"></div>
-<div class="container">
-<h2>Smart Oven Management</h2>
-<div id="message"></div>
-<div class="add-form">
-<h3>Add Smart Oven</h3>
-<input id="newId" placeholder="ID (token value)" required="" type="text"/>
-<input id="newName" placeholder="Name" required="" type="text"/>
-<button id="addBtn">Add</button>
-</div>
-<h3>Existing Smart Ovens</h3>
-<table id="ovenTable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Power</th>
-<th>Temperature</th>
-<th>Timer</th>
-<th>Preheat</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-<button id="refreshBtn">Refresh List</button>
-<button id="backBtn">Back to dashboard</button>
-</div>
 
+<main class="container">
+    <h2>Smart Oven Management</h2>
+    <div id="message"></div>
+
+    <h3>Add Smart Oven</h3>
+    <div class="add-form">
+        <input id="newId" type="text" placeholder="ID (token value)" required />
+        <input id="newName" type="text" placeholder="Name" required />
+
+        <div class="temp-control">
+            <label for="newTemperature">Set Temperature (°C):</label>
+            <div class="number-input">
+                <button type="button" class="plus" onclick="changeTemp(-10, 'newTemperature')"></button>
+                <div class="temp-wrapper">
+                    <input id="newTemperature" type="number" min="50" max="300" step="10" value="200" onblur="validateTemp(this)" />
+                    <span class="unit">°C</span>
+                </div>
+                <button type="button" class="minus" onclick="changeTemp(10, 'newTemperature')"></button>
+            </div>
+        </div>
+
+        <button id="addBtn">Add</button>
+    </div>
+
+    <h3>Existing Smart Ovens</h3>
+    <table id="ovenTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Power</th>
+            <th>Temperature</th>
+            <th>Timer</th>
+            <th>Preheat</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="actions">
+        <button id="refreshBtn">Refresh List</button>
+        <button id="backBtn">Back to dashboard</button>
+    </div>
+</main>
+
+<div th:replace="~{fragments :: footerFrag}"></div>
 <script src="/script/main.js"></script>
 <script src="/script/oven_management.js"></script>
-<div th:replace="~{fragments :: footerFrag}"></div>
 </body>
 </html>

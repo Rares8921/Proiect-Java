@@ -20,7 +20,7 @@
           <td>${hub.name}</td>
           <td>${hub.eventLogSize}</td>
           <td>
-            <button onclick="deleteHub('${hub.id}')">Delete</button>
+            <button onclick="deleteHub('${hub.id}')" class="delete">Delete</button>
             <button onclick="controlHub('${hub.id}')">Control</button>
           </td>
         `;
