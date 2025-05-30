@@ -4,7 +4,9 @@
 **IoT Home Automation System** este o aplicatie care simuleaza un sistem inteligent de automatizare a locuintei. Scopul aplicatiei este de a oferi functionalitati complete pentru controlul si monitorizarea dispozitivelor smart (precum termostate, lumini, senzori etc.).
 
 Totul a fost lucrat pe windows 11. Am folosit docker desktop ca server.
+
 Dupa ce am deschis docker desktop, e nevoie de **docker compose up -d**.
+
 Apoi rulam aplicatia spring boot din intellij.
 
 # Etapa II - Baza de date si Audit
