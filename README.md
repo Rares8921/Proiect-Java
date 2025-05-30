@@ -9,7 +9,7 @@ Dupa ce am deschis docker desktop, e nevoie de **docker compose up -d** din term
 
 Apoi rulam aplicatia spring boot din intellij.
 
-# Etapa II - Baza de date si Audit
+# Etapa II - Baza de date, testing si Audit
 
 ### Baza de date
 
@@ -25,6 +25,8 @@ Apoi rulam aplicatia spring boot din intellij.
 - `SmartSensorDAO`, `SmartCameraDAO`, `SmartCurtainsDAO`, `SmartSprinklerDAO`, `SmartHubDAO`, `SmartAssistantDAO`
 - Fiecare DAO are: `findById`, `findAll`, `save`, `update`, `delete`
 - Fiecare service prelucreaza obiectul si face validari suplimentare
+
+### Actiunile au fost testate cu junit, formand un total de 44 de teste. (src/test)
 
 ### Audit
 
